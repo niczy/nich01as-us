@@ -16,3 +16,9 @@ indexes:
   - name: platform
   - name: version
     direction: desc
+
+- kind: ClientVersion
+  properties:
+  - name: platform
+  - name: version
+    direction: desc

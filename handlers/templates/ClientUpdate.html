@@ -1,0 +1,22 @@
+{% extends 'templates/BasePage.html' %}
+{% block body %}
+<form class="well" action="/page/client_update" method="post">
+    <div>
+        <label for="version"> Version: </label>
+        <input class="input-xlarge" id="version" type="text" name="version" />
+    </div>
+    <div>
+        <label for="platform"> Platform: </label>
+        <input id="platform" type="text" name="platform" />
+    </div>
+    <div>
+        <label for="url"> Url: </label>
+        <input id="url" type="text" name="url" />
+    </div>
+    <div>
+        <input class="btn btn-primary" type="submit" value="Submit" />
+    </div>
+</form>
+
+{% endblock %}
+ 

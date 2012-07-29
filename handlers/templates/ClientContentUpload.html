@@ -1,14 +1,5 @@
-<html>
-    <head>
-        <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css" type="text/css" />
-        <script type="text/javascript" src="/static/bootstrap/js/bootstrap.min.js"></script>
-        <link rel="stylesheet" type="text/css" src="/static/bootstrap/css/bootstrap-responsive.min.css"/>
-    </head>
-
-    <body>
-        {{ version }}
-        {{ platform }}
-
+{% extends 'templates/BasePage.html' %}
+{% block body %}
         <form class="well" action="/page/client_content_upload" method="post" >
             <div>
                 <label for="version"> Version: </label>
@@ -32,7 +23,5 @@
             </div>
             
         </form>
-        This is the client content upload page.
-    </body>
-
-</html>
+        
+{% endblock %}

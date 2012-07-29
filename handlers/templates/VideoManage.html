@@ -1,0 +1,27 @@
+{% extends 'templates/BasePage.html'%}
+
+{% block body %}
+<form class="well" action="/page/video_manage" method="post">
+
+    <div>
+        <label for="channel_id"> Channel ID: </label>
+        <input class="input-xlarge" id="channel_id" type="text" name="channel_id" />
+    </div>
+ 
+    <div>
+        <label for="title"> Title: </label>
+        <input class="input-xlarge" id="title" type="text" name="title" />
+    </div>
+    <div>
+        <label for="video_url"> Video Url: </label>
+        <input id="video_url" type="text" name="video_url" />
+    </div>
+    <div>
+        <label for="cover_img"> CoverImage: </label>
+        <input id="cover_img" type="text" name="cover_img" />
+    </div>
+    <div>
+        <input class="btn btn-primary" type="submit" value="Submit" />
+    </div>
+</form>
+{% endblock %}

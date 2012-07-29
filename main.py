@@ -16,10 +16,18 @@
 #
 import webapp2
 from handlers import client_page
+from handlers import video_handlers
 import os
 
 app = webapp2.WSGIApplication([(r'/api/client/queryversion', client_page.VersionQueryHandler),
                                 (r'/api/client/getcontent', client_page.PageContentHandler),
+                                (r'/api/v/(\w+)', video_handlers.ChannelHandler),
+                                (r'/api/v/(\w+)/', video_handlers.ChannelHandler),
+                                (r'/api/v/(\w+)/([\w\d\-]+)', video_handlers.VideoHandler),
+                                (r'/api/v/(\w+)/(\w+)/', video_handlers.VideoHandler),
                                 (r'/page/client_content_upload', client_page.PageUpdateHandler),
+                                (r'/page/client_update', client_page.ClientUpdateHandler),
+                                (r'/page/channel_manage', video_handlers.ChannelManageHandler),
+                                (r'/page/video_manage', video_handlers.VideoManageHandler),
     ],
                               debug=True)
