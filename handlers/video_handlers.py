@@ -1,8 +1,12 @@
 import webapp2
+import handlers
 from handlers import BasePageHandler
 from models.VideoModels import ChannelModel
 from models.VideoModels import VideoModel
 from google.appengine.ext import db
+import models
+import json
+from StringIO import StringIO
 
 def channel_key(channel_id):
     return db.Key.from_path("ChannelModel", channel_id)
@@ -23,26 +27,27 @@ class ChannelManageHandler(BasePageHandler):
             channel.put()
             return self.get()
 
-class ChannelHandler(webapp2.RequestHandler):
+class ChannelHandler(handlers.BaseJsonHandler):
     def get(self, channel_id):
         key = channel_key(channel_id);
         channel = db.get(key)
         q = VideoModel.all()
         q.ancestor(key)
         videos = q.fetch(10)
-        self.response.out.write("%s %s" % (channel.title, channel.cover_img))
-        for video in videos:
-            self.response.out.write("video title: %s, video_id: %s" % (video.title, video.key().id()))
+        ret = {}
+        ret["channel"] = channel.to_dict()
+        ret["videos"] = models.to_dict_array(videos)
+        self.render_dict_as_json(ret)
 
 
-class VideoHandler(webapp2.RequestHandler):
+class VideoHandler(handlers.BaseJsonHandler):
     def get(self, channel_id, video_id):
         video_key = db.Key.from_path("ChannelModel", channel_id, "VideoModel", int(video_id))
         video = db.get(video_key) 
         if video:
-            self.response.out.write("%s %s" % (video.title, video.video_url))
+            self.render_dict_as_json(video.to_dict())
         else:
-            self.response.out.write("not found video: %s" % (video_id))
+            self.response.out.write("{}") 
 
 
 class VideoManageHandler(BasePageHandler):

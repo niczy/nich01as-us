@@ -44,7 +44,7 @@ Or return the latest version number of the client as well as the download url.
 Get
 
 ###### Path
-/page/client_content_upl
+/page/client_content_uploadß
 
 ###### Parameters
 None
