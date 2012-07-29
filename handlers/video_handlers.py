@@ -1,6 +1,9 @@
 import webapp2
 import handlers
+import logging
 from handlers import BasePageHandler
+from index.indexes import ChannelIndex
+from index.indexes import VideoIndex
 from models.VideoModels import ChannelModel
 from models.VideoModels import VideoModel
 from google.appengine.ext import db
@@ -18,13 +21,18 @@ class ChannelManageHandler(BasePageHandler):
     def post(self):
         channel_id = self.request.get("channel_id")
         title = self.request.get("title")
+        #title = unicode(title, 'utf-8')
+        #title = title.encode('utf-8')
+        #logging.info("title: %s<br/>" % title)
+        #return
         cover_img = self.request.get("cover_img")
         key = channel_key(channel_id)
-        if db.get(key):
+        if False and db.get(key):
             self.response.out.write("exist")
         else:
             channel = ChannelModel(key_name = channel_id, title = title, cover_img = cover_img)
             channel.put()
+            ChannelIndex().add(channel)
             return self.get()
 
 class ChannelHandler(handlers.BaseJsonHandler):
@@ -63,6 +71,7 @@ class VideoManageHandler(BasePageHandler):
             video_url = self.request.get("video_url")
             video = VideoModel(parent = parent_key, title = title, cover_img = cover_img, video_url = video_url)
             video.put()
+            VideoIndex().add(video)
             return self.get()
         else:
             self.response.out.write("channel not exist")

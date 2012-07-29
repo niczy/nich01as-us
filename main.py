@@ -16,6 +16,7 @@
 #
 import webapp2
 from handlers import client_page
+from handlers import search_handlers
 from handlers import video_handlers
 import os
 
@@ -29,5 +30,7 @@ app = webapp2.WSGIApplication([(r'/api/client/queryversion', client_page.Version
                                 (r'/page/client_update', client_page.ClientUpdateHandler),
                                 (r'/page/channel_manage', video_handlers.ChannelManageHandler),
                                 (r'/page/video_manage', video_handlers.VideoManageHandler),
+                                (r'/search/channel/([^/]+)', search_handlers.ChannelSearchHandler),
+                                (r'/search/video/([^/]+)', search_handlers.VideoSearchHandler)
     ],
                               debug=True)
