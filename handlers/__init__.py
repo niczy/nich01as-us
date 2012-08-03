@@ -16,8 +16,12 @@ class BasePageHandler(webapp2.RequestHandler):
 
 class BaseJsonHandler(webapp2.RequestHandler):
     def render_dict_as_json(self, json_dict):
-        self.response.headers['Content-Type'] = 'application/json'
-        self.response.out.write(json.dumps(json_dict))
+        if self.request.get("jsonp"):
+            self.response.headers['Content-Type'] = 'text/javascript; charset=utf-8'
+            self.response.out.write('%s(%s)' % (self.request.get("jsonp"), json.dumps(json_dict)))
+        else:
+            self.response.headers['Content-Type'] = 'application/json; charset=utf-8'
+            self.response.out.write(json.dumps(json_dict))
 
     def redner_model_as_json(self, json_model):
         self.render_dict_as_json(json_model.to_dict())

@@ -1,4 +1,7 @@
 ##Overview
+For all the api interfaces, the server will return json format data by default.
+However, if you specify a "jsonp" parameter in the request, the server will return a jsonp format data.
+
 ### Server address
 
 http://video.nich01as.us/
