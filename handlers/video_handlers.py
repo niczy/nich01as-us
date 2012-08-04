@@ -13,9 +13,9 @@ import configs
 def channel_key(channel_id):
     return db.Key.from_path("ChannelModel", channel_id)
 
-class ChannelManageHandler(BasePageHandler):
+class ChannelUpdateHandler(BasePageHandler):
     def get(self):
-        self.render("ChannelManage.html")
+        self.render("ChannelUpdate.html")
 
     def post(self):
         channel_id = self.request.get("channel_id")
@@ -29,6 +29,17 @@ class ChannelManageHandler(BasePageHandler):
             channel.put()
             return self.get()
 
+class ChannelListHandler(handlers.BasePageHandler):
+    def get(self):
+        q = ChannelModel.all()
+        offset, limit = handlers.parse_offset_and_limit(self)
+        values = {}
+        channels = q.fetch(limit, offset = offset)
+        values["offset"] = offset
+        values["limit"] = limit
+        values["channels"] = channels
+        self.render("ChannelList.html", values)
+
 class ChannelHandler(handlers.BaseJsonHandler):
     '''
     Return the chanel information as well as the video list.
@@ -38,14 +49,7 @@ class ChannelHandler(handlers.BaseJsonHandler):
         channel = db.get(key)
         q = VideoModel.all()
         q.ancestor(key)
-        offset = 0
-        if self.request.get("offset"):
-            offset = int(self.request.get("offset"))
-        limit = 16
-        if self.request.get("limit"):
-            limit = int(self.request.get("limit"))
-            if limit > 64:
-                limit = 64
+        offset, limit = handlers.parse_offset_and_limit(self)
         videos = q.fetch(limit, offset = offset)
         ret = {}
         ret["channel"] = channel.to_dict()

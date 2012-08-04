@@ -18,6 +18,7 @@ import webapp2
 from handlers import client_page
 from handlers import video_handlers
 from handlers import parser_handlers
+from handlers import admin_handlers
 import os
 
 app = webapp2.WSGIApplication([(r'/api/client/queryversion', client_page.VersionQueryHandler),
@@ -30,7 +31,9 @@ app = webapp2.WSGIApplication([(r'/api/client/queryversion', client_page.Version
                                 (r'/api/video/dislike', video_handlers.VideoDislikeHandler),
                                 (r'/page/client_content_upload', client_page.PageUpdateHandler),
                                 (r'/page/client_update', client_page.ClientUpdateHandler),
-                                (r'/page/channel_manage', video_handlers.ChannelManageHandler),
+                                (r'/page/admin/channel/update', video_handlers.ChannelUpdateHandler),
+                                (r'/page/admin/channels', video_handlers.ChannelListHandler),
+                                (r'/page/admin' , admin_handlers.AdminHomeHandler),
                                 (r'/page/video_manage', video_handlers.VideoManageHandler),
                                 (r'/page/manage/parser', parser_handlers.YoukuParserHandler),
     ],

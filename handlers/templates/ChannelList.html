@@ -1,0 +1,10 @@
+{% extends 'templates/BasePage.html'%}
+
+{% block body %}
+This is the admin home page.
+
+{% for channel in channels %}
+<li> <a href = "/page/admin/channel/update?channel_id={{ channel.key().name() }}"> {{ channel.title }} </a></li>
+{% endfor %}
+
+{% endblock %}

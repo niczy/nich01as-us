@@ -8,6 +8,17 @@ jinja_environment = jinja2.Environment(
         loader = jinja2.FileSystemLoader(os.path.dirname(__file__))
         )
 
+def parse_offset_and_limit(handler, default_offset = 0, max_limit = 64, default_limit = 16):
+    offset = default_offset 
+    if handler.request.get("offset"):
+        offset = int(handler.request.get("offset"))
+    limit = default_limit
+    if handler.request.get("limit"):
+        limit = int(handler.request.get("limit"))
+        if limit > max_limit:
+            limit = max_limit
+    return (offset, limit)
+
 
 class BasePageHandler(webapp2.RequestHandler):
     def render(self, page_name, values = {}):
