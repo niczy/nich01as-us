@@ -47,33 +47,6 @@ Or return the latest version number of the client as well as the download url.
 Get
 
 ###### Path
-/page/client_content_upload
-
-###### Parameters
-None
-
-###### Return
-This is a manage page for update certain file.
-
-----
-###### Method
-Get
-
-###### Path
-/page/client_update
-
-###### Parameters
-None
-
-###### Return
-This is a manage page for update client version.
-
-----
-
-###### Method
-Get
-
-###### Path
 /api/v/{channel_id}
 
 
@@ -138,13 +111,15 @@ return the video information.
 
 ----
 
+The Admin home page
 
+##### path
+/page/admin
 
+#### method
+GET
 
-
-to like a video.
-to like a video.
-
+----
 
 
 

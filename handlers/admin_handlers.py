@@ -1,6 +1,9 @@
 import webapp2
 import handlers
 import handlers
+from configs import router_path
+from models.VideoModels import ChannelModel 
+import logging
 from models import DataSource as data_source
 
 class AdminHomeHandler(handlers.BasePageHandler):
@@ -26,7 +29,7 @@ class ChannelUpdateHandler(handlers.BasePageHandler):
         else:
             channel = ChannelModel(key_name = channel_id, title = title, cover_img = cover_img)
             channel.put()
-            return self.get()
+            self.redirect(router_path["admin_channel_list"])
 
 
 
