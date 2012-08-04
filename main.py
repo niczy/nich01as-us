@@ -26,6 +26,8 @@ app = webapp2.WSGIApplication([(r'/api/client/queryversion', client_page.Version
                                 (r'/api/v/(\w+)/', video_handlers.ChannelHandler),
                                 (r'/api/v/(\w+)/([\w\d\-]+)', video_handlers.VideoHandler),
                                 (r'/api/v/(\w+)/(\w+)/', video_handlers.VideoHandler),
+                                (r'/api/video/like', video_handlers.VideoLikeHandler),
+                                (r'/api/video/dislike', video_handlers.VideoDislikeHandler),
                                 (r'/page/client_content_upload', client_page.PageUpdateHandler),
                                 (r'/page/client_update', client_page.ClientUpdateHandler),
                                 (r'/page/channel_manage', video_handlers.ChannelManageHandler),

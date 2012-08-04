@@ -14,6 +14,9 @@ class VideoModel(db.Model):
     title = db.StringProperty()
     cover_img = db.StringProperty()
     video_url = db.StringProperty()
+    like = db.IntegerProperty(default = 0)
+    dislike = db.IntegerProperty(default = 0)
+    editor_score = db.IntegerProperty(default = 0)
 
     def to_dict(self):
         ret = models.to_dict(self)

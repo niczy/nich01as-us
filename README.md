@@ -47,7 +47,7 @@ Or return the latest version number of the client as well as the download url.
 Get
 
 ###### Path
-/page/client_content_uploadß
+/page/client_content_upload
 
 ###### Parameters
 None
@@ -78,7 +78,9 @@ Get
 
 
 ###### Parameters
-None
+offset: Speficy the offset for the video list. Default value 0.
+
+limit: Specify how many videos returned at most. Default value 16. Maxvalue 64.
 
 ###### Return
 Return the channel infomation, inclues its  videos.
@@ -98,6 +100,51 @@ None
 Return the video information.
 
 ----
+
+to like a video.
+###### method
+post
+
+
+###### path
+/api/video/like
+###### parameters
+
+channel_id: the channel_id.
+
+video_id: the video_id.
+
+###### return
+return the video information.
+
+----
+
+
+to dislike a video.
+###### method
+post
+
+
+###### path
+/api/video/dislike
+###### parameters
+
+channel_id: the channel_id.
+
+video_id: the video_id.
+
+###### return
+return the video information.
+
+----
+
+
+
+
+
+to like a video.
+to like a video.
+
 
 
 
