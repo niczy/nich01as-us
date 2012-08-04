@@ -1,18 +1,18 @@
-{% extends 'templates/BasePage.html'%}
+{% extends 'templates/CenterLayout.html'%}
 
-{% block body %}
+{% block content %}
 <form class="well" action="/page/channel_manage" method="post">
     <div>
         <label for="channel_id"> ChannelId: </label>
-        <input class="input-xlarge" id="channel_id" type="text" name="channel_id" />
+        <input class="input-xlarge" id="channel_id" type="text" name="channel_id" value="{% if channel is defined %}{{channel.key().name()}} {% endif %}" />
     </div>
     <div>
         <label for="title"> title: </label>
-        <input id="title" type="text" name="title" />
+        <input id="title" type="text" name="title" value="{% if channel is defined %}{{channel.title}} {% endif %}"/>
     </div>
     <div>
         <label for="cover_img"> CoverImage: </label>
-        <input id="cover_img" type="text" name="cover_img" />
+        <input id="cover_img" type="text" name="cover_img" value="{% if channel is defined %}{{channel.cover_img}} {% endif %}" />
     </div>
     <div>
         <input class="btn btn-primary" type="submit" value="Submit" />

@@ -19,9 +19,10 @@ from handlers import client_page
 from handlers import video_handlers
 from handlers import parser_handlers
 from handlers import admin_handlers
+from configs import router_path
 import os
 
-app = webapp2.WSGIApplication([(r'/api/client/queryversion', client_page.VersionQueryHandler),
+app = webapp2.WSGIApplication([(router_path["query_version"], client_page.VersionQueryHandler),
                                 (r'/api/client/getcontent', client_page.PageContentHandler),
                                 (r'/api/v/(\w+)', video_handlers.ChannelHandler),
                                 (r'/api/v/(\w+)/', video_handlers.ChannelHandler),
@@ -29,11 +30,11 @@ app = webapp2.WSGIApplication([(r'/api/client/queryversion', client_page.Version
                                 (r'/api/v/(\w+)/(\w+)/', video_handlers.VideoHandler),
                                 (r'/api/video/like', video_handlers.VideoLikeHandler),
                                 (r'/api/video/dislike', video_handlers.VideoDislikeHandler),
-                                (r'/page/client_content_upload', client_page.PageUpdateHandler),
-                                (r'/page/client_update', client_page.ClientUpdateHandler),
-                                (r'/page/admin/channel/update', video_handlers.ChannelUpdateHandler),
-                                (r'/page/admin/channels', video_handlers.ChannelListHandler),
-                                (r'/page/admin' , admin_handlers.AdminHomeHandler),
+                                (router_path["update_client_page"], client_page.PageUpdateHandler),
+                                (router_path["update_client"], client_page.ClientUpdateHandler),
+                                (router_path["admin_channel_update"], admin_handlers.ChannelUpdateHandler),
+                                (router_path["admin_channel_list"], video_handlers.ChannelListHandler),
+                                (router_path["admin_home"] , admin_handlers.AdminHomeHandler),
                                 (r'/page/video_manage', video_handlers.VideoManageHandler),
                                 (r'/page/manage/parser', parser_handlers.YoukuParserHandler),
     ],

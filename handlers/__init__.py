@@ -3,6 +3,7 @@ import os
 import webapp2
 import json
 import models
+from configs import router_path
 
 jinja_environment = jinja2.Environment(
         loader = jinja2.FileSystemLoader(os.path.dirname(__file__))
@@ -23,6 +24,7 @@ def parse_offset_and_limit(handler, default_offset = 0, max_limit = 64, default_
 class BasePageHandler(webapp2.RequestHandler):
     def render(self, page_name, values = {}):
         template = jinja_environment.get_template("templates/" + page_name)
+        values["routers"] = router_path
         self.response.out.write(template.render(values))
 
 class BaseJsonHandler(webapp2.RequestHandler):

@@ -10,25 +10,6 @@ from StringIO import StringIO
 import models.DataSource as data_source
 import configs
 
-def channel_key(channel_id):
-    return db.Key.from_path("ChannelModel", channel_id)
-
-class ChannelUpdateHandler(BasePageHandler):
-    def get(self):
-        self.render("ChannelUpdate.html")
-
-    def post(self):
-        channel_id = self.request.get("channel_id")
-        title = self.request.get("title")
-        cover_img = self.request.get("cover_img")
-        key = channel_key(channel_id)
-        if db.get(key):
-            self.response.out.write("exist")
-        else:
-            channel = ChannelModel(key_name = channel_id, title = title, cover_img = cover_img)
-            channel.put()
-            return self.get()
-
 class ChannelListHandler(handlers.BasePageHandler):
     def get(self):
         q = ChannelModel.all()
@@ -45,7 +26,7 @@ class ChannelHandler(handlers.BaseJsonHandler):
     Return the chanel information as well as the video list.
     '''
     def get(self, channel_id):
-        key = channel_key(channel_id);
+        key = data_source.get_channel(channel_id);
         channel = db.get(key)
         q = VideoModel.all()
         q.ancestor(key)
@@ -112,7 +93,7 @@ class VideoManageHandler(BasePageHandler):
 
     def post(self):
         channel_id = self.request.get("channel_id")
-        parent_key = channel_key(channel_id)
+        parent_key = data_source.get_channel(channel_id)
         if db.get(parent_key):
             title = self.request.get("title")
             cover_img = self.request.get("cover_img")
