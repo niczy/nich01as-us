@@ -1,6 +1,7 @@
-{% extends 'templates/CenterLayout.html'%}
+{% extends 'templates/TwoColumnLayout.html'%}
 
-{% block content %}
+
+{% block left_column %}
 <form class="well" action="{{ routers.admin_channel_update }}" method="post">
     <div>
         <label for="channel_id"> ChannelId: </label>
@@ -8,14 +9,29 @@
     </div>
     <div>
         <label for="title"> title: </label>
-        <input id="title" type="text" name="title" value="{% if channel is defined %}{{channel.title}} {% endif %}"/>
+        <input class="input-xlarge" id="title" type="text" name="title" value="{% if channel is defined %}{{channel.title}} {% endif %}"/>
     </div>
     <div>
         <label for="cover_img"> CoverImage: </label>
-        <input id="cover_img" type="text" name="cover_img" value="{% if channel is defined %}{{channel.cover_img}} {% endif %}" />
+        <input class="input-xlarge" id="cover_img" type="text" name="cover_img" value="{% if channel is defined %}{{channel.cover_img}} {% endif %}" />
     </div>
     <div>
         <input class="btn btn-primary" type="submit" value="Submit" />
     </div>
 </form>
+{% endblock %}
+
+
+{% block right_column %}
+{% if channel is defined %}
+<a href="{{ routers.admin_video_update}}?channel_id={{channel.key().name()}}" class="btn btn-primary">Add video in this channel</a>
+{% endif %}
+
+{% if videos is defined %}
+    <ul>
+        {% for video in videos %}
+        <li><a href="{{ routers.admin_video_update}}?channel_id={{channel.key().name()}}&video_id={{ video.key().id() }}">{{ video.title }}</a> </li>
+        {% endfor %}
+    </ul>
+{% endif %}
 {% endblock %}

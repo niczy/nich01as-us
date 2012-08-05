@@ -35,7 +35,7 @@ app = webapp2.WSGIApplication([(router_path["query_version"], client_page.Versio
                                 (router_path["admin_channel_update"], admin_handlers.ChannelUpdateHandler),
                                 (router_path["admin_channel_list"], video_handlers.ChannelListHandler),
                                 (router_path["admin_home"] , admin_handlers.AdminHomeHandler),
-                                (r'/page/video_manage', video_handlers.VideoManageHandler),
+                                (router_path["admin_video_update"], admin_handlers.VideoUpdateHandler),
                                 (r'/page/manage/parser', parser_handlers.YoukuParserHandler),
     ],
                               debug=True)

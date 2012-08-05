@@ -1,0 +1,18 @@
+{% extends 'templates/BasePage.html'%}
+
+{% block body %}
+<div class="container-fluid" >
+    <div class="row-fluid">
+        <div class="span4" >
+            {% block left_column%}
+            {% endblock %}
+        </div>
+        <div class="span8">
+            {% block right_column%}
+            {% endblock %}
+        </div>
+    </div>
+    </div>
+{% endblock %}
+
+

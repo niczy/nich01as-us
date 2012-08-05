@@ -26,12 +26,9 @@ class ChannelHandler(handlers.BaseJsonHandler):
     Return the chanel information as well as the video list.
     '''
     def get(self, channel_id):
-        key = data_source.get_channel(channel_id);
-        channel = db.get(key)
-        q = VideoModel.all()
-        q.ancestor(key)
+        channel = data_source.get_channel(channel_id)
         offset, limit = handlers.parse_offset_and_limit(self)
-        videos = q.fetch(limit, offset = offset)
+        videos = data_source.get_videos_in_channel(channel_id, offset = offset, limit = limit) 
         ret = {}
         ret["channel"] = channel.to_dict()
         ret["videos"] = models.to_dict_array(videos)

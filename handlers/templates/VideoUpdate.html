@@ -1,0 +1,27 @@
+{% extends 'templates/BasePage.html'%}
+
+{% block body %}
+<form class="well" action="{{routers.admin_video_update}}" method="post">
+
+    <div>
+        <label for="channel_id"> Channel ID: </label>
+        <input class="input-xlarge" id="channel_id" type="text" name="channel_id" {% if channel_id is defined %}value="{{ channel_id }}"{% endif %}/>
+    </div>
+ 
+    <div>
+        <label for="title"> Title: </label>
+        <input class="input-xlarge" id="title" type="text" name="title" {% if video is defined %} value="{{video.title}}"{% endif %} />
+    </div>
+    <div>
+        <label for="video_url"> Video Url: </label>
+        <input id="video_url" type="text" name="video_url" {% if video is defined %} value="{{ video.video_url }}"{% endif %} />
+    </div>
+    <div>
+        <label for="cover_img"> CoverImage: </label>
+        <input id="cover_img" type="text" name="cover_img" {% if video is defined %} value="{{ video.cover_img }}"{% endif %} //>
+    </div>
+    <div>
+        <input class="btn btn-primary" type="submit" value="Submit" />
+    </div>
+</form>
+{% endblock %}
