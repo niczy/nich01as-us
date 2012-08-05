@@ -18,8 +18,11 @@
     </div>
     <div>
         <label for="cover_img"> CoverImage: </label>
-        <input id="cover_img" type="text" name="cover_img" {% if video is defined %} value="{{ video.cover_img }}"{% endif %} //>
+        <input id="cover_img" type="text" name="cover_img" {% if video is defined %} value="{{ video.cover_img }}"{% endif %} />
     </div>
+    {% if video is defined %}
+        <input type="hidden" name="video_id" value="{{ video.key().id() }}" >
+    {% endif %}
     <div>
         <input class="btn btn-primary" type="submit" value="Submit" />
     </div>

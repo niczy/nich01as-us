@@ -54,12 +54,19 @@ class VideoUpdateHandler(handlers.BasePageHandler):
 
     def post(self):
         channel_id = self.request.get("channel_id")
+        video_id = self.request.get("video_id")
         channel = data_source.get_channel(channel_id)
+        video = data_source.get_video(channel_id, video_id)
         if channel:
             title = self.request.get("title")
             cover_img = self.request.get("cover_img")
             video_url = self.request.get("video_url")
-            video = VideoModel(parent = channel, title = title, cover_img = cover_img, video_url = video_url)
+            if not video:
+                video = VideoModel(parent = channel, title = title, cover_img = cover_img, video_url = video_url)
+            else:
+                video.title = title
+                video.cover_img = cover_img
+                video.video_url = video_url
             video.put()
             self.redirect(router_path["admin_channel_update"] + "?channel_id=%s" % (channel_id))
             return self.get()
