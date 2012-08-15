@@ -74,4 +74,16 @@ class VideoUpdateHandler(handlers.BasePageHandler):
             self.response.out.write("channel not exist")
 
 
+class ParserManageHandler(handlers.BasePageHandler):
+    def get(self):
+        name = self.request.get("name")
+        if name == "youku_girls":
+            from tools import youku_parser
+            for i in xrange(10):
+                video_infos = youku_parser.parse_url("http://www.youku.com/v_showlist/t2c86g0d3p%d.html" % (i))
+                for video_info in video_infos:
+                    if not data_source.get_video_by_external_id(video_info["source"], video_info["external_id"]):
+                        video = data_source.create_video_from_dict("girls", video_info)
+                        video.put()
+        self.render("ParserManage.html")
 

@@ -6,6 +6,7 @@ router_path = {
             "admin_channel_list" : r'/page/admin/channels', # List all the channels for edit.
             "admin_channel_update" : r'/page/admin/channel/update', # Update a channel info.
             "admin_video_update" : r'/page/admin/video/update',
+            'admin_parser' : r'/page/admin/parser', # Page used to manage the parsers
             "update_client" : r'/page/admin/client_update', # Update the client.
             "admin_home" : r'/page/admin', # The admin home page. 
         }
