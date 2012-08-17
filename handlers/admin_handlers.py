@@ -15,6 +15,7 @@ class AdminHomeHandler(handlers.BasePageHandler):
 class ChannelUpdateHandler(handlers.BasePageHandler):
     def get(self):
         channel_id = self.request.get("channel_id")
+        
         values = {}
 
         if channel_id:
@@ -23,6 +24,19 @@ class ChannelUpdateHandler(handlers.BasePageHandler):
             channel = data_source.get_channel(channel_id)
             if channel:
                 values["channel"] = channel
+
+                # If delete is set we will delete all the channel as well as its videos.
+                delete = self.request.get("delete")
+                if delete == "true":
+                    q = VideoModel.all()
+                    q.ancestor(channel)
+                    for video in q:
+                        video.delete()
+                    channel.delete()
+                    self.redirect(router_path["admin_channel_list"])
+                    return
+
+
             if videos:
                 values["videos"] = videos
             values["offset"] = offset

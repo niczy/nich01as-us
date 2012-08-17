@@ -11,6 +11,7 @@ Channel List
 <li>
     <div class="channel_item">
         <a href = "{{ routers.admin_channel_update}}?channel_id={{ channel.key().name() }}"> {{ channel.title }} </a>-------({{channel.key().name()}})
+        <a href= "{{ routers.admin_channel_update}}?channel_id={{ channel.key().name() }}&delete=true">Delete</a>
     </div>
 </li>
 {% endfor %}

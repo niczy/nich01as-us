@@ -2,6 +2,7 @@
 
 {% from 'templates/macros/PageHelper.html' import pager %}
 {% block left_column %}
+    {% if channel %}
     {{ pager('/channel/' + channel.key().name(), offset, limit)}}
     <ul>
         {% for video  in videos %}
@@ -34,6 +35,7 @@
         {% endfor %}
     </ul>
     {{ pager('/channel/' + channel.key().name(), offset, limit)}}
+    {% endif %}
 {% endblock %}
 
 
