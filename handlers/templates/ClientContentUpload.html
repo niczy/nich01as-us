@@ -1,27 +1,25 @@
 {% extends 'templates/BasePage.html' %}
 {% block body %}
-        <form class="well" action="/page/client_content_upload" method="post" >
-            <div>
-                <label for="version"> Version: </label>
-                <input class="input-xlarge" id="version" type="text" name="version" />
-            </div>
-            <div>
-                <label for="platform"> Platform: </label>
-                <input id="platform" type="text" name="platform" />
-            </div>
-            <div>
-                <label for="pathname"> Pathname: </label>
-                <input id="pathname" type="text" name="pathname" />
-            </div>
-            <div>
-                <label for="content"> Content: </label>
-                <textarea id="content" name="content" row="30"></textarea>
-            </div>
+    <form class="well" action="{{ routers.update_client_page }}" method="post" >
+        <div>
+            <label for="version"> Version: </label>
+            <input class="input-xlarge" id="version" type="text" name="version" />
+        </div>
+        <div>
+            <label for="platform"> Platform: </label>
+            <input id="platform" type="text" name="platform" />
+        </div>
+        <div>
+            <label for="pathname"> Pathname: </label>
+            <input id="pathname" type="text" name="pathname" />
+        </div>
+        <div>
+            <label for="content"> Content: </label>
+            <textarea id="content" name="content" row="30"></textarea>
+        </div>
 
-            <div>
-                <input class="btn btn-primary" type="submit" value="Submit" />
-            </div>
-            
-        </form>
-        
+        <div>
+            <input class="btn btn-primary" type="submit" value="Submit" />
+        </div>
+    </form>
 {% endblock %}
