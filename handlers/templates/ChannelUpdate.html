@@ -24,13 +24,19 @@
 
 {% block right_column %}
 {% if channel is defined %}
-<a href="{{ routers.admin_video_update}}?channel_id={{channel.key().name()}}" class="btn btn-primary">Add video in this channel</a>
+    <a href="{{ routers.admin_video_update}}?channel_id={{channel.key().name()}}" class="btn btn-primary">Add video in this channel</a>
+    {% from 'templates/macros/PageHelper.html' import pager %}
+    {{ pager(routers.admin_channel_update + '?channel_id=' + channel.key().name(), offset, limit)}}
 {% endif %}
 
 {% if videos is defined %}
     <ul>
         {% for video in videos %}
-        <li><a href="{{ routers.admin_video_update}}?channel_id={{channel.key().name()}}&video_id={{ video.key().id() }}">{{ video.title }}</a> </li>
+        <li>
+            <div class="video_item_no_img"> 
+                <a href="{{ routers.admin_video_update}}?channel_id={{channel.key().name()}}&video_id={{ video.key().id() }}">{{ video.title }}</a> 
+            </div>
+        </li>
         {% endfor %}
     </ul>
 {% endif %}

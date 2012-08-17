@@ -1,0 +1,42 @@
+{% extends 'templates/TwoColumnLayout.html' %}
+
+{% from 'templates/macros/PageHelper.html' import pager %}
+{% block left_column %}
+    {{ pager('/channel/' + channel.key().name(), offset, limit)}}
+    <ul>
+        {% for video  in videos %}
+            <li>
+                <div class="video_item">
+                    <div>
+                        <a href="{{video.video_url}}" target="__blank" >
+                            <img src="{{ video.cover_img }}" />
+                        </a>
+                    <div>
+                    <a href="{{video.video_url}}" target="__blank" >
+                        {{ video.title }}
+                    </a>
+                    <div>
+                        <span>
+                            <a href="/api/video/like?channel_id={{channel.key().name()}}&video_id={{video.key().id()}}" />
+                            like: {{ video.like }}
+                            </a>
+                        </span>
+
+                        <span>
+                            <a href="/api/video/dislike?channel_id={{channel.key().name()}}&video_id={{video.key().id()}}" />
+                            dislike: {{ video.dislike }}
+                            </a>
+                        </span>
+
+                    </div>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+    {{ pager('/channel/' + channel.key().name(), offset, limit)}}
+{% endblock %}
+
+
+{% block right_column %}
+
+{% endblock %}

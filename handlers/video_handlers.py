@@ -32,8 +32,24 @@ class ChannelHandler(handlers.BaseJsonHandler):
         ret = {}
         ret["channel"] = channel.to_dict()
         ret["videos"] = models.to_dict_array(videos)
+        ret["offset"] = offset
+        ret["limit"] = limit
         self.render_dict_as_json(ret)
 
+class ChannelPageHandler(handlers.BasePageHandler):
+    '''
+    Return the chanel information as well as the video list.
+    '''
+    def get(self, channel_id):
+        channel = data_source.get_channel(channel_id)
+        offset, limit = handlers.parse_offset_and_limit(self)
+        videos = data_source.get_videos_in_channel(channel_id, offset = offset, limit = limit) 
+        ret = {}
+        ret["channel"] = channel
+        ret["videos"] = videos 
+        ret["offset"] = offset
+        ret["limit"] = limit
+        self.render("ChannelListPage.html", ret)
 
 class VideoHandler(handlers.BaseJsonHandler):
     '''
@@ -56,7 +72,7 @@ class VideoLikeHandler(handlers.BaseJsonHandler):
         video_id = self.request.get("video_id")
         video = data_source.get_video(channel_id, video_id)
         if video:
-            video.like = video.like + 1
+            video.do_like()
             video.put()
             self.render_dict_as_json(video.to_dict())
         else:
@@ -75,30 +91,10 @@ class VideoDislikeHandler(handlers.BaseJsonHandler):
         video_id = int(self.request.get("video_id"))
         video = data_source.get_video(channel_id, video_id)
         if video:
-            video.dislike = video.dislike + 1
+            video.do_dislike()
             video.put()
             self.render_dict_as_json(video.to_dict())
 
     def get(self):
         if configs.DEBUG:
             return self.post()
-
-
-class VideoManageHandler(BasePageHandler):
-    def get(self):
-        self.render("VideoManage.html")
-
-    def post(self):
-        channel_id = self.request.get("channel_id")
-        parent_key = data_source.get_channel(channel_id)
-        if db.get(parent_key):
-            title = self.request.get("title")
-            cover_img = self.request.get("cover_img")
-            video_url = self.request.get("video_url")
-            video = VideoModel(parent = parent_key, title = title, cover_img = cover_img, video_url = video_url)
-            video.put()
-            return self.get()
-        else:
-            self.response.out.write("channel not exist")
-
-

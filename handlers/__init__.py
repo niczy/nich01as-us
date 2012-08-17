@@ -13,6 +13,8 @@ def parse_offset_and_limit(handler, default_offset = 0, max_limit = 64, default_
     offset = default_offset 
     if handler.request.get("offset"):
         offset = int(handler.request.get("offset"))
+        if offset < 0:
+            offset = 0
     limit = default_limit
     if handler.request.get("limit"):
         limit = int(handler.request.get("limit"))

@@ -8,7 +8,11 @@ Channel List
 
 <a class="btn btn-primary" href="{{ routers.admin_channel_update}}"> Add Channel </a>
 {% for channel in channels %}
-<li> <a href = "{{ routers.admin_channel_update}}?channel_id={{ channel.key().name() }}"> {{ channel.title }} </a></li>
+<li>
+    <div class="channel_item">
+        <a href = "{{ routers.admin_channel_update}}?channel_id={{ channel.key().name() }}"> {{ channel.title }} </a>-------({{channel.key().name()}})
+    </div>
+</li>
 {% endfor %}
 
 {% endblock %}

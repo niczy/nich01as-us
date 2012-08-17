@@ -30,6 +30,7 @@ app = webapp2.WSGIApplication([(router_path["query_version"], client_page.Versio
                                 (r'/api/v/(\w+)/(\w+)/', video_handlers.VideoHandler),
                                 (r'/api/video/like', video_handlers.VideoLikeHandler),
                                 (r'/api/video/dislike', video_handlers.VideoDislikeHandler),
+                                (router_path["channel_page"], video_handlers.ChannelPageHandler),
                                 (router_path["update_client_page"], client_page.PageUpdateHandler),
                                 (router_path["update_client"], client_page.ClientUpdateHandler),
                                 (router_path["admin_channel_update"], admin_handlers.ChannelUpdateHandler),
@@ -37,5 +38,6 @@ app = webapp2.WSGIApplication([(router_path["query_version"], client_page.Versio
                                 (router_path["admin_home"] , admin_handlers.AdminHomeHandler),
                                 (router_path["admin_video_update"], admin_handlers.VideoUpdateHandler),
                                 (router_path["admin_parser"], admin_handlers.ParserManageHandler),
+                                (router_path["admin_start_parse"], admin_handlers.StartParseHandler),
     ],
                               debug=True)

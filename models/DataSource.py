@@ -31,6 +31,7 @@ def get_videos_in_channel(channel_id, offset = 0, limit = 16):
     key = channel_key(channel_id)
     q = VideoModel.all()
     q.ancestor(key)
+    q.order("-final_socre")
     return q.fetch(limit, offset = offset)
 
 def create_video_from_dict(channel_id, video_info):

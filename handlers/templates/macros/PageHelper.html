@@ -1,0 +1,18 @@
+{% macro pager(url, offset = 0, limit = 16, count = 16) %}
+    {% if "?" in url %}
+        <a class="btn" href="{{ url }}&offset={{ offset - limit }}">
+            Previous Page
+        </a>
+        <a class="btn" href="{{ url }}&offset={{ offset + count}}">
+            Next Page
+        </a>
+    {% else %}
+        <a class="btn" href="{{ url }}?offset={{ offset - limit }}">
+            Previous Page
+        </a>
+        <a class="btn" href="{{ url }}?offset={{ offset + count}}">
+            Next Page
+        </a>
+    {% endif %}
+    No. {{(offset / limit + 1) | int }}
+{% endmacro %}

@@ -1,5 +1,6 @@
 from google.appengine.ext import db
 import models
+from tools.sort import hot
 
 class ChannelModel(db.Model):
     title = db.StringProperty()
@@ -23,6 +24,19 @@ class VideoModel(db.Model):
     final_socre = db.FloatProperty(default = 0.0)
     source = db.StringProperty(default = "")
     external_id = db.StringProperty(default = "")
+    created_datetime = db.DateTimeProperty(auto_now_add = True)
+    modified_datetime = db.DateTimeProperty(auto_now = True)
+
+    def calculate_score(self):
+        self.final_socre = hot(self.like, self.dislike, self.created_datetime) + self.editor_score
+
+    def do_like(self):
+        self.like += 1
+        self.calculate_score()
+
+    def do_dislike(self):
+        self.dislike += 1
+        self.calculate_score()
 
     def to_dict(self):
         ret = models.to_dict(self)
