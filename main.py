@@ -40,5 +40,7 @@ app = webapp2.WSGIApplication([(router_path["query_version"], client_page.Versio
                                 (router_path["admin_video_update"], admin_handlers.VideoUpdateHandler),
                                 (router_path["admin_parser"], admin_handlers.ParserManageHandler),
                                 (router_path["admin_start_parse"], admin_handlers.StartParseHandler),
+                                (router_path["signup_page"], client_page.SignUpHandler),
+                                (router_path["signin_page"], client_page.SignInHandler),
     ],
                               debug=True)

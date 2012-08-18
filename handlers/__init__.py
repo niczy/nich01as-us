@@ -4,6 +4,7 @@ import webapp2
 import json
 import models
 from configs import router_path
+from models import UserModels
 
 jinja_environment = jinja2.Environment(
         loader = jinja2.FileSystemLoader(os.path.dirname(__file__))
@@ -22,11 +23,39 @@ def parse_offset_and_limit(handler, default_offset = 0, max_limit = 64, default_
             limit = max_limit
     return (offset, limit)
 
+# Decorator applies to get/post methods that requires user's information.
+# If the user already logged in, self.user will contain the user's id or email,
+# otherwise None.
+# If the 'url' argument is provided, unlogged-in users will be
+# redirected to 'url'
+def require_login(url):
+    def login_check(fn):
+        def Get(self, *args):
+            self.user = self.request.cookies.get('id')
+            if self.user:
+                key = self.request.cookies.get('key')
+                expected_key = UserModels.get_user_cookie_key(self.user)
+                if key != expected_key:
+                    self.user = None
+                    
+            if self.user == None and url != None:
+                self.redirect(url)
+                return
+            else:
+                fn(self, *args)
+        return Get
+    return login_check
 
 class BasePageHandler(webapp2.RequestHandler):
+    def __init__(self, request, response):
+        webapp2.RequestHandler.__init__(self, request, response)
+        self.user = None
+        
     def render(self, page_name, values = {}):
         template = jinja_environment.get_template("templates/" + page_name)
         values["routers"] = router_path
+        if self.user:
+            values["user"] = self.user
         self.response.out.write(template.render(values))
 
 class BaseJsonHandler(webapp2.RequestHandler):
