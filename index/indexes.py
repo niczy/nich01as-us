@@ -76,7 +76,7 @@ class VideoIndex(AbstractIndex):
     
     def model_do_document(self, video):
         return search.Document(
-            doc_id=str(video.key().id()),
+            doc_id=str(video.parent().key().name() + "-" + video.key().id()),
             fields=[search.TextField(name='title', value=video.title),
                     search.TextField(name='payload', value=json.dumps(video.to_dict())),
                       ],
