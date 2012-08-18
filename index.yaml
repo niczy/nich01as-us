@@ -17,8 +17,8 @@ indexes:
   - name: version
     direction: desc
 
-- kind: ClientVersion
+- kind: VideoModel
+  ancestor: yes
   properties:
-  - name: platform
-  - name: version
+  - name: final_socre
     direction: desc

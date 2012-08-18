@@ -1,0 +1,45 @@
+{% extends 'templates/CenterLayout.html' %}
+
+{% from 'templates/macros/PageHelper.html' import pager %}
+{% block content %}
+    {% if channel %}
+    {{ pager('/channel/' + channel.key().name(), offset, limit)}}
+    <ul>
+        {% for video  in videos %}
+            <li>
+                <div class="video_item">
+                    <div class="video_thumb">
+                        <a href="http://static.youku.com/v1.0.0025/v/swf/qplayer.swf?VideoIDS={{ video.external_id}}&isAutoPlay=true&winType=index&isShowRelatedVideo=false" target="__blank" >
+                            <img src="{{ video.cover_img }}" />
+                        </a>
+                    </div>
+                    <div class="video_info">
+                        <a href="{{video.video_url}}" target="__blank" >
+                            {{ video.title }}
+                        </a>
+                        <div>
+                            <span>
+                                Comments: 100
+                            </span>
+                            <span>
+                                <a href="/api/video/like?channel_id={{channel.key().name()}}&video_id={{video.key().id()}}" />
+                                like: {{ video.like }}
+                                </a>
+                            </span>
+
+                            <span>
+                                <a href="/api/video/dislike?channel_id={{channel.key().name()}}&video_id={{video.key().id()}}" />
+                                dislike: {{ video.dislike }}
+                                </a>
+                            </span>
+
+                        </div>
+                    </div>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+    {{ pager('/channel/' + channel.key().name(), offset, limit)}}
+    {% endif %}
+{% endblock %}
+

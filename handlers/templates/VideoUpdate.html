@@ -1,0 +1,46 @@
+{% extends 'templates/BasePage.html'%}
+
+{% block body %}
+<form class="well" action="{{routers.admin_video_update}}" method="post">
+
+    <div>
+        <label for="channel_id"> Channel ID: </label>
+        {% if video is defined %}
+            {{ channel_id }}
+             <input class="input-xlarge" id="channel_id" type="hidden" name="channel_id" {% if channel_id is defined %}value="{{ channel_id }}"{% endif %}/>
+
+        {% else %}
+            <input class="input-xlarge" id="channel_id" type="text" name="channel_id" {% if channel_id is defined %}value="{{ channel_id }}"{% endif %}/>
+        {% endif %}
+    </div>
+ 
+    <div>
+        <label for="title"> Title: </label>
+        <input class="input-xlarge" id="title" type="text" name="title" {% if video is defined %} value="{{video.title}}"{% endif %} />
+    </div>
+    <div>
+        <label for="video_url"> Video Url: </label>
+        <input id="video_url" type="text" name="video_url" {% if video is defined %} value="{{ video.video_url }}"{% endif %} />
+    </div>
+    <div>
+        <label for="cover_img"> CoverImage: </label>
+        <input id="cover_img" type="text" name="cover_img" {% if video is defined %} value="{{ video.cover_img }}"{% endif %} />
+    </div>
+    <div>
+        <label for="editor_score"> EditorScore: </label>
+        <input id="editor_score" type="text" name="editor_score" {% if video is defined %} value="{{ video.editor_score }}"{% endif %} />
+    </div>
+    {% if video is defined %}
+        <div>
+            FinalScore: {{ video.final_socre }}
+        </div>
+    {% endif %}
+
+    {% if video is defined %}
+        <input type="hidden" name="video_id" value="{{ video.key().id() }}" >
+    {% endif %}
+    <div>
+        <input class="btn btn-primary" type="submit" value="Submit" />
+    </div>
+</form>
+{% endblock %}

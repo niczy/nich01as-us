@@ -1,0 +1,43 @@
+{% extends 'templates/TwoColumnLayout.html'%}
+
+
+{% block left_column %}
+<form class="well" action="{{ routers.admin_channel_update }}" method="post">
+    <div>
+        <label for="channel_id"> ChannelId: </label>
+        <input class="input-xlarge" id="channel_id" type="text" name="channel_id" value="{% if channel is defined %}{{channel.key().name()}} {% endif %}" />
+    </div>
+    <div>
+        <label for="title"> title: </label>
+        <input class="input-xlarge" id="title" type="text" name="title" value="{% if channel is defined %}{{channel.title}} {% endif %}"/>
+    </div>
+    <div>
+        <label for="cover_img"> CoverImage: </label>
+        <input class="input-xlarge" id="cover_img" type="text" name="cover_img" value="{% if channel is defined %}{{channel.cover_img}} {% endif %}" />
+    </div>
+    <div>
+        <input class="btn btn-primary" type="submit" value="Submit" />
+    </div>
+</form>
+{% endblock %}
+
+
+{% block right_column %}
+{% if channel is defined %}
+    <a href="{{ routers.admin_video_update}}?channel_id={{channel.key().name()}}" class="btn btn-primary">Add video in this channel</a>
+    {% from 'templates/macros/PageHelper.html' import pager %}
+    {{ pager(routers.admin_channel_update + '?channel_id=' + channel.key().name(), offset, limit)}}
+{% endif %}
+
+{% if videos is defined %}
+    <ul>
+        {% for video in videos %}
+        <li>
+            <div class="video_item_no_img"> 
+                <a href="{{ routers.admin_video_update}}?channel_id={{channel.key().name()}}&video_id={{ video.key().id() }}">{{ video.title }}</a> 
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+{% endif %}
+{% endblock %}

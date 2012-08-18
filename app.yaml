@@ -1,5 +1,5 @@
 application: nich01as-us
-version: 1
+version: 4
 runtime: python27
 api_version: 1
 threadsafe: yes
@@ -20,4 +20,7 @@ libraries:
   version: "2.5.1"
 
 - name: jinja2
+  version: latest
+
+- name: lxml
   version: latest

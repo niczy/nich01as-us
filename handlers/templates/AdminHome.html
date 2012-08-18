@@ -1,0 +1,26 @@
+{% extends 'templates/CenterLayout.html'%}
+
+{% block title %}
+  后台管理
+{% endblock %}
+
+{% block content %}
+<li>
+<a href="{{ routers.admin_channel_list }}" > Channel List </a>
+</li>
+
+<li>
+<a href="{{ routers.update_client_page}}"> Update Client Page </a>
+</li>
+
+<li>
+    <a href="{{ routers.update_client}}"> Update Client </a>
+</li>
+<li>
+    <a href="{{ routers.admin_parser }}"> Parse Manage </a>
+</li>
+
+
+
+
+{% endblock %}

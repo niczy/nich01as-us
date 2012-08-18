@@ -1,4 +1,7 @@
 ##Overview
+For all the api interfaces, the server will return json format data by default.
+However, if you specify a "jsonp" parameter in the request, the server will return a jsonp format data.
+
 ### Server address
 
 http://video.nich01as.us/
@@ -44,38 +47,13 @@ Or return the latest version number of the client as well as the download url.
 Get
 
 ###### Path
-/page/client_content_uploadß
-
-###### Parameters
-None
-
-###### Return
-This is a manage page for update certain file.
-
-----
-###### Method
-Get
-
-###### Path
-/page/client_update
-
-###### Parameters
-None
-
-###### Return
-This is a manage page for update client version.
-
-----
-
-###### Method
-Get
-
-###### Path
 /api/v/{channel_id}
 
 
 ###### Parameters
-None
+offset: Speficy the offset for the video list. Default value 0.
+
+limit: Specify how many videos returned at most. Default value 16. Maxvalue 64.
 
 ###### Return
 Return the channel infomation, inclues its  videos.
@@ -93,6 +71,53 @@ None
 
 ###### Return
 Return the video information.
+
+----
+
+to like a video.
+###### method
+post
+
+
+###### path
+/api/video/like
+###### parameters
+
+channel_id: the channel_id.
+
+video_id: the video_id.
+
+###### return
+return the video information.
+
+----
+
+
+to dislike a video.
+###### method
+post
+
+
+###### path
+/api/video/dislike
+###### parameters
+
+channel_id: the channel_id.
+
+video_id: the video_id.
+
+###### return
+return the video information.
+
+----
+
+The Admin home page
+
+##### path
+/page/admin
+
+#### method
+GET
 
 ----
 
