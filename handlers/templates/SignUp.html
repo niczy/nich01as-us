@@ -1,0 +1,13 @@
+{% extends 'templates/CenterLayout.html'%}
+
+{% block content %}
+
+<form action="/signup" method="post">
+    Username: <input type="text" name="id"><br/>
+    Email(Optional): <input type="text" name="email"><br/>
+    Password: <input type="password" name="password"><br/>
+    <input type="submit" value="Sign Up"/>
+</form>
+<div> Error: {{ error }} </div>
+
+{% endblock %}

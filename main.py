@@ -16,6 +16,8 @@
 #
 import webapp2
 from handlers import client_page
+from handlers import comment_handlers
+from handlers import search_handlers
 from handlers import video_handlers
 from handlers import parser_handlers
 from handlers import admin_handlers
@@ -30,6 +32,10 @@ app = webapp2.WSGIApplication([(router_path["query_version"], client_page.Versio
                                 (r'/api/v/(\w+)/(\w+)/', video_handlers.VideoHandler),
                                 (r'/api/video/like', video_handlers.VideoLikeHandler),
                                 (r'/api/video/dislike', video_handlers.VideoDislikeHandler),
+                                (r'/api/getcomment/(\w+)/(\w+)', comment_handlers.CommentHandler),
+                                (r'/api/getcomment/(\w+)/(\w+)/(\d+)', comment_handlers.CommentHandler),
+                                (r'/api/addcomment/(\w+)/(\w+)', comment_handlers.CommentHandler),
+                                (r'/api/addcomment/(\w+)/(\w+)/(\d+)', comment_handlers.CommentHandler),
                                 (router_path["channel_page"], video_handlers.ChannelPageHandler),
                                 (router_path["update_client_page"], client_page.PageUpdateHandler),
                                 (router_path["update_client"], client_page.ClientUpdateHandler),
@@ -39,5 +45,8 @@ app = webapp2.WSGIApplication([(router_path["query_version"], client_page.Versio
                                 (router_path["admin_video_update"], admin_handlers.VideoUpdateHandler),
                                 (router_path["admin_parser"], admin_handlers.ParserManageHandler),
                                 (router_path["admin_start_parse"], admin_handlers.StartParseHandler),
+                                (router_path["signup_page"], client_page.SignUpHandler),
+                                (router_path["signin_page"], client_page.SignInHandler),
+                                (r'/debug', comment_handlers.DebugHandler)
     ],
                               debug=True)

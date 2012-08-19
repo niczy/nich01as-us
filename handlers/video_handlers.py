@@ -1,6 +1,8 @@
 import webapp2
 import handlers
 from handlers import BasePageHandler
+from index.indexes import ChannelIndex
+from index.indexes import VideoIndex
 from models.VideoModels import ChannelModel
 from models.VideoModels import VideoModel
 from google.appengine.ext import db
