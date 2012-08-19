@@ -21,14 +21,14 @@ class VideoModel(db.Model):
     like = db.IntegerProperty(default = 0)
     dislike = db.IntegerProperty(default = 0)
     editor_score = db.IntegerProperty(default = 0)
-    final_socre = db.FloatProperty(default = 0.0)
+    final_score = db.FloatProperty(default = 0.0)
     source = db.StringProperty(default = "")
     external_id = db.StringProperty(default = "")
     created_datetime = db.DateTimeProperty(auto_now_add = True)
     modified_datetime = db.DateTimeProperty(auto_now = True)
 
     def calculate_score(self):
-        self.final_socre = hot(self.like, self.dislike, self.created_datetime) + self.editor_score
+        self.final_score = hot(self.like, self.dislike, self.created_datetime) + self.editor_score
 
     def do_like(self):
         self.like += 1

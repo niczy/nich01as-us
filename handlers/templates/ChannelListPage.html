@@ -1,9 +1,8 @@
 {% extends 'templates/CenterLayout.html' %}
 
-{% from 'templates/macros/PageHelper.html' import pager %}
 {% block content %}
     {% if channel %}
-    {{ pager('/channel/' + channel.key().name(), offset, limit)}}
+    {#
     <ul>
         {% for video  in videos %}
             <li>
@@ -39,7 +38,9 @@
             </li>
         {% endfor %}
     </ul>
-    {{ pager('/channel/' + channel.key().name(), offset, limit)}}
+    #}
+    <div ng-view></div>
     {% endif %}
 {% endblock %}
+
 
