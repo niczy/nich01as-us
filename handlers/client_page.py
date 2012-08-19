@@ -108,9 +108,9 @@ class SignInHandler(BasePageHandler):
     def post(self):
         id = self.request.get("id")
         password = self.request.get("password")
-        if signin(id, id, password):
+        if signin(id, password):
             set_login(self, id)
             self.redirect('/signin-success') #TODO: signin redirect url here.
         else:
-            self.render("SignIn.html", {"error": "Username/Email or Password error"}) #TODO replace e.strerror with errer messages.
+            self.render("SignIn.html", {"error": "Username or Password error"}) #TODO replace e.strerror with errer messages.
         

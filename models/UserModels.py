@@ -43,9 +43,8 @@ def signup(id, email, password):
     return True
 
 # Signin with id or email, return true if succeeded, false otherwise.
-def signin(id, email, password):  
+def signin(id, password):  
     users = db.Query(User).filter("id =", id).fetch(limit = 1)
-    users.extend(db.Query(User).filter("email =", email).fetch(limit = 1))
     hashed_pw = get_hashed_password(password)
     for u in users:
         if hashed_pw == u.password:
