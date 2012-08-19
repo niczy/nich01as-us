@@ -17,15 +17,11 @@ class CommentModel(db.Model):
     user = db.StringProperty(required=True)
     created = db.DateTimeProperty(auto_now_add=True)
     parent_id = db.IntegerProperty()
-    channel_id = db.StringProperty()
-    video_id = db.StringProperty()
-    
+
     def to_dict(self):
         return {"i": self.key().id(), # Id
                 "c": self.comment, # Comment
                 "u": self.user,  # User
                 "p": self.parent_id, # Parent comment id
-                "ch": self.channel_id, # CHannel id
-                "v": self.video_id, # Video id
-                't': str(self.created), # Time created
+                't': self.created.strftime("%Y%m%d-%H%S%M"), # Time created
                 }

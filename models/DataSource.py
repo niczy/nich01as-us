@@ -9,7 +9,7 @@ from libs.comment_tree import CommentTree
 from libs import fastcounter
 
 COMMENT_TREE_MAX_SIZE = 10000
-COMMENT_TREE_CACHE_SECONDS = 10
+COMMENT_TREE_CACHE_SECONDS = 2
 
 COUNTER_UPDATE_SECONDS = 1
 
@@ -54,7 +54,7 @@ def create_video_from_dict(channel_id, video_info):
 @Cached(COMMENT_TREE_CACHE_SECONDS)
 def get_comment_tree(channel_id, video_id, cid, max_num_comments=100):
     tree = _build_comment_tree(channel_id, video_id)
-    return tree.get_sub_tree(cid)
+    return tree.get_sub_tree(cid, max_num_comments)
 
 def add_comment(comment, user, channel_id, video_id, parent_id):
     video = _video_key(channel_id, video_id)
