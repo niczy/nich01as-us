@@ -8,6 +8,8 @@ import handlers
 from handlers import require_login
 from models.DataSource import get_comment_tree
 from models.DataSource import add_comment
+from models.DataSource import like_comment
+from models.DataSource import dislike_comment
 
 class CommentHandler(handlers.BaseJsonHandler):
     '''
@@ -32,8 +34,9 @@ class CommentLikeHandler(handlers.BaseJsonHandler):
     '''
     To like a comment
     '''
-    def post(self):
-        pass
+    def post(self, channel_id, video_id, comment_id):
+        delta = int(self.request.get('delta'))
+        like_comment(channel_id, video_id, comment_id, delta)
 
     def get(self):
         pass
@@ -42,8 +45,9 @@ class CommentDislikeHandler(handlers.BaseJsonHandler):
     '''
     To dislike a comment
     '''
-    def post(self):
-        pass
+    def post(self, channel_id, video_id, comment_id):
+        delta = int(self.request.get('delta'))
+        dislike_comment(channel_id, video_id, comment_id, delta)
 
     def get(self):
         pass

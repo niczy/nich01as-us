@@ -21,6 +21,7 @@ from handlers import search_handlers
 from handlers import video_handlers
 from handlers import parser_handlers
 from handlers import admin_handlers
+from libs import fastcounter
 from configs import router_path
 import os
 
@@ -36,6 +37,9 @@ app = webapp2.WSGIApplication([(router_path["query_version"], client_page.Versio
                                 (r'/api/getcomment/(\w+)/(\w+)/(\d+)', comment_handlers.CommentHandler),
                                 (r'/api/addcomment/(\w+)/(\w+)', comment_handlers.CommentHandler),
                                 (r'/api/addcomment/(\w+)/(\w+)/(\d+)', comment_handlers.CommentHandler),
+                                (r'/api/likecomment/(\w+)/(\w+)/(\d+)', comment_handlers.CommentLikeHandler),
+                                (r'/api/dislikecomment/(\w+)/(\w+)/(\d+)', comment_handlers.CommentDislikeHandler),
+                                (r'/task/counter_persist_incr', fastcounter.CounterPersistIncr),
                                 (router_path["channel_page"], video_handlers.ChannelPageHandler),
                                 (router_path["update_client_page"], client_page.PageUpdateHandler),
                                 (router_path["update_client"], client_page.ClientUpdateHandler),

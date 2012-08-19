@@ -10,12 +10,12 @@ class CommentTree():
     def __init__(self, comments_model):
         self._root = {'i':-1}
         id_to_comment = {'-1':self._root}
-        comments = []
+        self._comments = []
         for comment in comments_model:
             comment = comment.to_dict()
-            comments.append(comment)
-            id_to_comment.update({str(comment["i"]):comment})
-        for comment in comments:
+            self._comments.append(comment)
+            id_to_comment[str(comment["i"])] = comment
+        for comment in self._comments:
             pid = str(comment['p'])
             if not id_to_comment.has_key(pid):
                 logging.error("Comment data corrupted. Can find parent comment %d for comment %s "
@@ -23,7 +23,7 @@ class CommentTree():
                 continue
             parent = id_to_comment[pid]
             if not parent.has_key('s'): #sub nodes
-                parent.update({'s': []})
+                parent['s'] = []
             parent['s'].append(comment)
     
     @staticmethod
@@ -35,6 +35,9 @@ class CommentTree():
             if ret: return ret
         return None
     
+    def comments(self):
+        return self._comments
+        
     def get_sub_tree(self, cid):        
         if cid == -1: return self._root
         return CommentTree.find_comment_recursive(self._root, cid)
