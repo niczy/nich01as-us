@@ -1,0 +1,16 @@
+queue:
+- name: PersistCounter0
+  rate: 10/s
+  bucket_size: 100
+
+- name: PersistCounter1
+  rate: 10/s
+  bucket_size: 100
+ 
+- name: PersistCounter2
+  rate: 10/s
+  bucket_size: 100
+ 
+- name: PersistCounter3
+  rate: 10/s
+  bucket_size: 100
