@@ -10,6 +10,7 @@ from models.DataSource import get_comment_tree
 from models.DataSource import add_comment
 from models.DataSource import like_comment
 from models.DataSource import dislike_comment
+import logging
 
 class CommentHandler(handlers.BaseJsonHandler):
     '''
@@ -27,9 +28,11 @@ class CommentHandler(handlers.BaseJsonHandler):
     Add a comment under the given comment id.
     '''
     @require_login('/')
-    def post(self, channel_id, video_id, comment_id='-1'):
-        comment = self.request.get('comment')
-        add_comment(comment, self.user, channel_id, video_id, int(comment_id))
+    def post(self, channel_id = None, video_id = None, comment_id='-1'):
+        comment_content = self.request.get('comment')
+        logging.info(self.request.body)
+        comment = add_comment(comment_content, self.user, channel_id, video_id, comment_id)
+        self.render_dict_as_json(comment.to_dict())
 
 class CommentLikeHandler(handlers.BaseJsonHandler):
     '''

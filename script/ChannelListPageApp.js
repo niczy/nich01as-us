@@ -74,14 +74,20 @@ function VideoDetailCntl($scope, $routeParams, $resource, $window) {
     var Video = $resource("/api/v/:channel_id/:video_id");
     $scope.video = Video.get({'channel_id': $routeParams.channel_id, 'video_id': $routeParams.video_id}, function (video) {
         console.log(video);
-    var youkuPlayer = '<embed id="STK_134545267189696" height="356" allowscriptaccess="never" style="visibility: visible;" pluginspage="http://get.adobe.com/cn/flashplayer/" flashvars="playMovie=true&amp;auto=1" width="440" allowfullscreen="true" quality="hight" src="http://player.youku.com/player.php/sid/YOUKUID=/v.swf" type="application/x-shockwave-flash" wmode="transparent">'.replace('YOUKUID', video.external_id);
+        var youkuPlayer = '<embed id="STK_134545267189696" height="356" allowscriptaccess="never" style="visibility: visible;" pluginspage="http://get.adobe.com/cn/flashplayer/" flashvars="playMovie=true&amp;auto=1" width="440" allowfullscreen="true" quality="hight" src="http://player.youku.com/player.php/sid/YOUKUID=/v.swf" type="application/x-shockwave-flash" wmode="transparent">'.replace('YOUKUID', video.external_id);
     $('#video-container').html(youkuPlayer);
+        $scope.Comment = $resource("/api/addcomment/:channel_id/:video_id/:comment_id", {"channel_id": $scope.video.channel_id, 'video_id': $scope.video.video_id, 'comment': 'ddd'});
     });
 
 
     $scope.comments = ['a', 'b'];
 
     $scope.addComment = function() {
+        console.log($scope.video);
+        $scope.Comment.save({'comment': $scope.commentContent}, {}, function(comment) {
+            console.log(comment);
+            console.log('comment succeed');
+        });
         $scope.comments.push($scope.commentContent);
         $scope.commentContent = '';
     }

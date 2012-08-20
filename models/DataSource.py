@@ -57,15 +57,17 @@ def get_comment_tree(channel_id, video_id, cid, max_num_comments=100):
     return tree.get_sub_tree(cid, max_num_comments)
 
 def add_comment(comment, user, channel_id, video_id, parent_id):
+    if not user or not channel_id or not video_id:
+        return None
     video = _video_key(channel_id, video_id)
     comment = CommentModel(parent = video,
                            comment = comment,
                            user = user,
                            channel_id = channel_id,
                            video_id = video_id,
-                           parent_id = parent_id)
+                           parent_id = int(parent_id))
     comment.put()
-    return comment.key().id()
+    return comment
 
 def dislike_comment(channel_id, video_id, comment_id, delta=1):
     fastcounter.incr(comment_dislike_counter(channel_id, video_id, comment_id),
