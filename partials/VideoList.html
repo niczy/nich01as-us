@@ -2,8 +2,8 @@
 <li ng-repeat="video in videos">
     <div class="video_item">
         <div class="video_thumb">
-            <a href="http://static.youku.com/v1.0.0025/v/swf/qplayer.swf?VideoIDS={{ video.external_id}}&isAutoPlay=true&winType=index&isShowRelatedVideo=false" target="__blank" >
-                <img src="{{ video.cover_img }}" />
+            <a href="{{channel.channel_id + '/' + video.video_id}}"  >
+                <img ng-src="{{ video.cover_img }}" />
             </a>
         </div>
         <div class="video_info">
@@ -12,7 +12,9 @@
             </a>
             <div>
                 <span>
-                    Comments: 100
+                    <a href="{{channel.channel_id + '/' + video.video_id}}">
+                        Comments: 100
+                    </a>
                 </span>
                 <span>
                     <a ng-click="like(channel.channel_id, video.video_id)"> 

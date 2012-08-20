@@ -8,6 +8,7 @@ from models.VideoModels import VideoModel
 from google.appengine.ext import db
 import models
 import json
+import logging
 from StringIO import StringIO
 import models.DataSource as data_source
 import configs
@@ -42,7 +43,7 @@ class ChannelPageHandler(handlers.BasePageHandler):
     '''
     Return the chanel information as well as the video list.
     '''
-    def get(self, channel_id):
+    def get(self, channel_id, video_id = ''):
         channel = data_source.get_channel(channel_id)
         offset, limit = handlers.parse_offset_and_limit(self)
         videos = data_source.get_videos_in_channel(channel_id, offset = offset, limit = limit) 
@@ -64,6 +65,11 @@ class VideoHandler(handlers.BaseJsonHandler):
             self.render_dict_as_json(video.to_dict())
         else:
             self.response.out.write("{}") 
+
+class VideoPageHandler(handlers.BasePageHandler):
+
+    def get(self, channel_id, video_id):
+        self.render("ChannelListPage.html")
 
 class VideoLikeHandler(handlers.BaseJsonHandler):
     '''

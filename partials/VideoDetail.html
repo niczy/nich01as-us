@@ -1,1 +1,19 @@
-This video detail
+<div id="video-container">
+</div>
+<div>
+    <textarea rows="10" cols="100" ng-model="commentContent">
+
+    </textarea>
+    <button class="btn" ng-click="addComment()">
+        Submmit
+    </button>
+</div>
+
+
+<div>
+    <ul>
+        <li ng-repeat="comment in comments">
+        {{ comment }}
+        </li>
+    </ul>
+</div>

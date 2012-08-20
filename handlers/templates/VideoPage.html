@@ -1,0 +1,15 @@
+{% extends 'templates/TwoColumnLayout.html' %}
+
+{% block left_column%}
+    <div>
+        <embed id="STK_134545267189696" height="356" allowscriptaccess="never" style="visibility: visible;" pluginspage="http://get.adobe.com/cn/flashplayer/" flashvars="playMovie=true&amp;auto=1" width="440" allowfullscreen="true" quality="hight" src="http://player.youku.com/player.php/sid/{{ video.external_id }}=/v.swf" type="application/x-shockwave-flash" wmode="transparent">
+        This Video Page.
+    </div>
+{% endblock %}
+
+
+{% block right_column %}
+    <div ng-view></div>
+{% endblock %}
+
+

@@ -2,8 +2,7 @@ angular.module('App', ['ngResource']).
     config(function($routeProvider, $locationProvider) {
         $routeProvider.
             when('/channel/:channel_id', {templateUrl:"/partials/VideoList.html", controller:VideoListCntl}).
-            when('/channel/:channel_id/:video_id', {templateUrl:"/partials/VideoDetail.html", controller: VideoDetailCntl}).
-            otherwise({redirectTo: '/'});
+            when('/channel/:channel_id/:video_id', {templateUrl:"/partials/VideoDetail.html", controller: VideoDetailCntl});
         $locationProvider.html5Mode(true);
     });
 
@@ -70,8 +69,22 @@ function VideoListCntl($scope, $http, $routeParams, $resource) {
 }
 
 
-function VideoDetailCntl($scope, $routePatams) {
-    consolle.log("in Video detail cntl");
+function VideoDetailCntl($scope, $routeParams, $resource, $window) {
+    console.log("In Video Detail Cntl");
+    var Video = $resource("/api/v/:channel_id/:video_id");
+    $scope.video = Video.get({'channel_id': $routeParams.channel_id, 'video_id': $routeParams.video_id}, function (video) {
+        console.log(video);
+    var youkuPlayer = '<embed id="STK_134545267189696" height="356" allowscriptaccess="never" style="visibility: visible;" pluginspage="http://get.adobe.com/cn/flashplayer/" flashvars="playMovie=true&amp;auto=1" width="440" allowfullscreen="true" quality="hight" src="http://player.youku.com/player.php/sid/YOUKUID=/v.swf" type="application/x-shockwave-flash" wmode="transparent">'.replace('YOUKUID', video.external_id);
+    $('#video-container').html(youkuPlayer);
+    });
+
+
+    $scope.comments = ['a', 'b'];
+
+    $scope.addComment = function() {
+        $scope.comments.push($scope.commentContent);
+        $scope.commentContent = '';
+    }
 }
 
 
