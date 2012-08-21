@@ -51,6 +51,7 @@ class CommentTree():
     def get_sub_tree(self, cid, max_num_comments):
         if cid == -1: root = self._root
         else: root = _find_comment_recursive(self._root, cid)
+        if not root: return None
         return self.get_top_comments(root, max_num_comments)
     
     def get_top_comments(self, root, num_nodes):
@@ -58,13 +59,13 @@ class CommentTree():
         id_to_nodes = {}
         tree_size = 0
         h = []
-        root["sc"] = _score(root)
+        root["sc"] = 0 # No need to score the root
         heapq.heappush(h, (-root["sc"], root))
         while tree_size < num_nodes and len(h) > 0:
             node = heapq.heappop(h)[1]
             new_node = _copy_node(node)
             if not new_root: new_root = new_node
-            if id_to_nodes.has_key(str(node["p"])):
+            if node.has_key('p') and id_to_nodes.has_key(str(node["p"])):
                 id_to_nodes[str(node["p"])]["s"].append(new_node)
             id_to_nodes[str(node["i"])] = new_node
             tree_size += 1

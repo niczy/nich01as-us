@@ -16,8 +16,9 @@ class CommentHandler(handlers.BaseJsonHandler):
     Return the comment tree rooted from a comment.
     '''
     def get(self, channel_id, video_id, comment_id='-1'):
-        num = int(self.request.get("num"))
-        tree = get_comment_tree(channel_id, video_id, int(comment_id), num)  
+        num = self.request.get("num")
+        if num: num = tree = get_comment_tree(channel_id, video_id, int(comment_id), num)  
+        else: tree = get_comment_tree(channel_id, video_id, int(comment_id))         
         if tree:
             self.render_dict_as_json(tree)
         else:
