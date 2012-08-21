@@ -12,18 +12,42 @@ from tools.sort import hot
 """
 The tree is represented by its root node
 Each 'Node' is a dictionary with the structure: (Some fields are optional)
-    "i": int,  // Id of the comment
-    "u": str,  // User id
-    "c": str,  // Comment text
-    "p": int,  // Id of parent comment
-    "t": datetime obj,  // Time of creation 
-    "s": array of 'Node',  // Sub nodes
-    "l": int,  // Like counter
-    "d": int,  // Dislike counter
-    "n": int,  // total Number of descendants
-    "sc": float, // Score
+    "id": int,  // Id of the comment
+    "user": str,  // User id
+    "comment": str,  // Comment text
+    "parent_id": int,  // Id of parent comment
+    "time_created": datetime obj,  // Time of creation 
+    "children": array of 'Node',  // Sub nodes
+    "like": int,  // Like counter
+    "dislike": int,  // Dislike counter
+    "num_children": int,  // total Number of descendants
+    "score": float, // Score
 """
 
+_kwd_map = {
+    'i': 'id',
+    'u': 'user',
+    'c': 'comment',
+    'p': 'parent_id',
+    't': 'time_created',
+    's': 'children',
+    'l': 'like',
+    'd': 'dislike',
+    'n': 'num_children',
+    'sc': 'score'
+}
+
+def readable_tree(node):
+    new_node = {}
+    for key in node.keys():
+        if key != 's':
+            new_node[_kwd_map[key]] = node[key]
+    new_node[_kwd_map['s']] = []
+    if node.has_key('s'):
+        for s in node['s']:
+            new_node[_kwd_map['s']].append(readable_tree(node['s']))
+    return new_node
+    
 class CommentTree():  
     def __init__(self, comments_model):
         self._root = {'i':-1}
