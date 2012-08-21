@@ -34,7 +34,7 @@ app = webapp2.WSGIApplication([(router_path["query_version"], client_page.Versio
                                 (r'/api/video/like', video_handlers.VideoLikeHandler),
                                 (r'/api/video/dislike', video_handlers.VideoDislikeHandler),
                                 (r'/api/getcomment/(\w+)/(\w+)', comment_handlers.CommentHandler),
-                                (r'/api/getcomment/(\w+)/(\w+)/(\d+)', comment_handlers.CommentHandler),
+                                (r'/api/getcomment/(\w+)/(\w+)/([\-\w]+)', comment_handlers.CommentHandler),
                                 (r'/api/addcomment', comment_handlers.CommentHandler),
                                 (r'/api/addcomment/(\w+)/(\w+)', comment_handlers.CommentHandler),
                                 (r'/api/addcomment/(\w+)/(\w+)/(\d+)', comment_handlers.CommentHandler),
