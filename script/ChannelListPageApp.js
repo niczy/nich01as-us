@@ -69,7 +69,7 @@ function VideoListCntl($scope, $http, $routeParams, $resource) {
 }
 
 
-function VideoDetailCntl($scope, $routeParams, $resource, $window) {
+function VideoDetailCntl($scope, $routeParams, $resource) {
     console.log("In Video Detail Cntl");
     var Video = $resource("/api/v/:channel_id/:video_id");
     $scope.video = Video.get({'channel_id': $routeParams.channel_id, 'video_id': $routeParams.video_id}, function (video) {
@@ -81,7 +81,7 @@ function VideoDetailCntl($scope, $routeParams, $resource, $window) {
 
     var Comment = $resource("/api/addcomment/:channel_id/:video_id/:comment_id", {"channel_id": $routeParams.channel_id, 'video_id': $routeParams.video_id});
 
-    $scope.comments = ['a', 'b'];
+    $scope.comments = [];
 
     $scope.addComment = function() {
         console.log($scope.video);
@@ -93,10 +93,36 @@ function VideoDetailCntl($scope, $routeParams, $resource, $window) {
         $scope.commentContent = '';
     }
     console.log($routeParams.comment_id);
-    var Comments = $resource('/api/getcomment/:channel_id/:video_id/:comment_id', {'channel_id': $routeParams.channel_id, 'video_id': $routeParams.video_id, 'comment_id': -1});
-    Comments.get(function(comments) {
-        console.log(comments);    
-    })
+        var Comments = $resource('/api/getcomment/:channel_id/:video_id/:comment_id', {'channel_id': $routeParams.channel_id, 'video_id': $routeParams.video_id, 'comment_id': -1});
+        $scope.comments = Comments.query(function(comments) {
+        var root = $("#comments-tree");
+        root.append(buildCommentsTree(comments));
+    });
+
+
+    function buildCommentsTree(comments) {
+        var eleTree = $('<ul></ul>');
+        var childrens = [];
+        for (var i in comments) {
+            comment = comments[i];
+            var childEle = $('<li></li>');
+            var contentSpanEle = $('<div></div>');
+            childEle.append(contentSpanEle);
+            var commentContent = angular.element('<a></a>');
+            commentContent.html(comment.comment);
+            commentContent.attr('ng-click', 'refreshTree(' + comment.id + ')');
+            contentSpanEle.append(commentContent);
+            childEle.append(buildCommentsTree(comment.children));
+            childrens.push(childEle);
+        }
+        eleTree.append(childrens);
+        return eleTree;
+    }
+
+    $scope.refreshTree = function(comment_id) {
+        console.log(comment_id);
+    }
+
 
 }
 
