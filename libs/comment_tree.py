@@ -45,7 +45,7 @@ def readable_tree(node):
     new_node[_kwd_map['s']] = []
     if node.has_key('s'):
         for s in node['s']:
-            new_node[_kwd_map['s']].append(readable_tree(node['s']))
+            new_node[_kwd_map['s']].append(readable_tree(s))
     return new_node
     
 class CommentTree():  
