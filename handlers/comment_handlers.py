@@ -10,6 +10,7 @@ from models.DataSource import get_comment_tree
 from models.DataSource import add_comment
 from models.DataSource import like_comment
 from models.DataSource import dislike_comment
+from libs import comment_tree
 
 class CommentHandler(handlers.BaseJsonHandler):
     '''
@@ -18,7 +19,8 @@ class CommentHandler(handlers.BaseJsonHandler):
     def get(self, channel_id, video_id, comment_id='-1'):
         num = self.request.get("num")
         if num: tree = get_comment_tree(channel_id, video_id, int(comment_id), int(num))  
-        else: tree = get_comment_tree(channel_id, video_id, int(comment_id))         
+        else: tree = get_comment_tree(channel_id, video_id, int(comment_id)) 
+        tree = comment_tree.readable_tree(tree)        
         if tree:
             self.render_dict_as_json(tree)
         else:
