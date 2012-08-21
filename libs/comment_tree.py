@@ -37,7 +37,16 @@ _kwd_map = {
     'sc': 'score'
 }
 
-def readable_tree(node):
+def readable_comment_list(node):
+    if not node: return []
+    new_node = _readablize_recursive(node)
+    if new_node['id'] == -1:
+        if new_node.has_key('children'):
+            return new_node['children']
+        return []
+    return [new_node]
+
+def _readablize_recursive(node):
     new_node = {}
     for key in node.keys():
         if key != 's':
@@ -45,7 +54,7 @@ def readable_tree(node):
     new_node[_kwd_map['s']] = []
     if node.has_key('s'):
         for s in node['s']:
-            new_node[_kwd_map['s']].append(readable_tree(s))
+            new_node[_kwd_map['s']].append(_readablize_recursive(s))
     return new_node
     
 class CommentTree():  

@@ -21,9 +21,9 @@ class CommentHandler(handlers.BaseJsonHandler):
         num = self.request.get("num")
         if num: tree = get_comment_tree(channel_id, video_id, int(comment_id), int(num))  
         else: tree = get_comment_tree(channel_id, video_id, int(comment_id)) 
-        tree = comment_tree.readable_tree(tree)        
+        comments = comment_tree.readable_comment_list(tree)        
         if tree:
-            self.render_dict_as_json(tree)
+            self.render_dict_as_json(comments)
         else:
             self.response.out.write("comment tree not found")
     
