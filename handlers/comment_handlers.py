@@ -35,7 +35,7 @@ class CommentHandler(handlers.BaseJsonHandler):
         comment_content = self.request.get('comment')
         logging.info(self.request.body)
         comment = add_comment(comment_content, self.user, channel_id, video_id, comment_id)
-        self.render_dict_as_json(comment.to_dict())
+        self.render_dict_as_json(comment_tree._readablize_recursive(comment.to_dict()))
 
 class CommentLikeHandler(handlers.BaseJsonHandler):
     '''

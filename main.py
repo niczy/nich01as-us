@@ -42,6 +42,7 @@ app = webapp2.WSGIApplication([(router_path["query_version"], client_page.Versio
                                 (r'/api/dislikecomment/(\w+)/(\w+)/(\d+)', comment_handlers.CommentDislikeHandler),
                                 (r'/task/counter_persist_incr', fastcounter.CounterPersistIncr),
                                 (router_path["channel_page"], video_handlers.ChannelPageHandler),
+                                (router_path["video_page_with_comment"], video_handlers.ChannelPageHandler),
                                 (router_path["video_page"], video_handlers.VideoPageHandler),
                                 (router_path["update_client_page"], client_page.PageUpdateHandler),
                                 (router_path["update_client"], client_page.ClientUpdateHandler),

@@ -11,6 +11,7 @@ router_path = {
             "admin_home" : r'/page/admin', # The admin home page. 
             "admin_start_parse" : r'/page/admin/parse/start',
             "channel_page": r'/channel/(\w+)', 
+            "video_page_with_comment": r'/channel/(\w+)/(\w+)/(\w+)', 
             "video_page": r'/channel/(\w+)/(\w+)', 
             "signup_page": r'/signup',
             "signin_page": r'/signin',

@@ -43,7 +43,7 @@ class ChannelPageHandler(handlers.BasePageHandler):
     '''
     Return the chanel information as well as the video list.
     '''
-    def get(self, channel_id, video_id = ''):
+    def get(self, channel_id, video_id = '', comment_id = ''):
         channel = data_source.get_channel(channel_id)
         offset, limit = handlers.parse_offset_and_limit(self)
         videos = data_source.get_videos_in_channel(channel_id, offset = offset, limit = limit) 
@@ -68,7 +68,7 @@ class VideoHandler(handlers.BaseJsonHandler):
 
 class VideoPageHandler(handlers.BasePageHandler):
 
-    def get(self, channel_id, video_id):
+    def get(self, channel_id, video_id, comment_id=''):
         self.render("ChannelListPage.html")
 
 class VideoLikeHandler(handlers.BaseJsonHandler):
