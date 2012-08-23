@@ -1,5 +1,5 @@
 application: nich01as-us
-version: 4
+version: 5
 runtime: python27
 api_version: 1
 threadsafe: yes
@@ -20,7 +20,7 @@ handlers:
   static_dir: script 
 
 
-- url: .*
+- url: /.*
   script: main.app
 
 libraries:

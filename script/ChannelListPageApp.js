@@ -29,15 +29,16 @@ angular.module('CommentsTree').filter('ifarray', function() {
 		scope: {
 			val: '=val'
 		},
-		template: '<li><a href="/channel/{{val.channel_id}}/{{val.video_id}}/{{val.id}}"> {{val.comment}}</a><span>Reply</span><div ng-show="false" class="reply-container"><textarea></textarea><button class="btn">Submmit</button></div></li>',
+		template: '<li class="tree-node"><a class="comment_content" href="/channel/{{val.channel_id}}/{{val.video_id}}/{{val.id}}"> {{val.comment}}</a><a class="btn-link">回复</a><div ng-show="false" class="reply-container"><textarea></textarea><button class="btn">确定</button></div></li>',
 		link: function(scope, element, attrs) {
 			if (angular.isArray(scope.val.children)) {
-				var replyEle = element.find('span');
+				var replyEle = angular.element(element.find('a')[1]);
 				var replyContainer = element.find('div');
 				var replyButton = replyContainer.find('button');
 				var replyArea = replyContainer.find('textarea');
+                var opend = false;
 				replyButton.bind('click', function() {
-					replyContainer.hide();
+                    toogleReply();
 					console.log(replyArea.val());
 					var Comment = $resource("/api/addcomment/:channel_id/:video_id/:comment_id", {
 						"channel_id": scope.val.channel_id,
@@ -53,9 +54,29 @@ angular.module('CommentsTree').filter('ifarray', function() {
 				});
 
 				replyEle.bind('click', function() {
-					replyContainer.show();
+                    if (opend) {
+                        replyContainer.hide();
+                        opend = false;
+                        replyEle.html("回复");
+                    } else {
+                        replyContainer.show();
+                        opend = true;
+                        replyEle.html("取消");
+                    }
 					console.log(scope.val.comment)
 				});
+
+                function toogleReply() {
+                    if (opend) {
+                        replyContainer.hide();
+                        opend = false;
+                        replyEle.html("回复");
+                    } else {
+                        replyContainer.show();
+                        opend = true;
+                        replyEle.html("取消");
+                    }
+                }
 			}
 			element.append('<div tree val="val.children"></div>');
 			$compile(element.contents())(scope.$new());
@@ -82,6 +103,8 @@ angular.module('CommentsTree').filter('ifarray', function() {
 function VideoListCntl($scope, $http, $routeParams, $resource) {
 	channel = $resource("/api/v/:channel_id")
 	offset = $routeParams.offset ? $routeParams.offset: 0;
+
+    $scope.offset = offset;
 	channel.get({
 		'channel_id': 'girls',
 		'offset': offset
@@ -188,6 +211,8 @@ function VideoDetailCntl($scope, $routeParams, $resource) {
 		function(comment) {
 			console.log(comment);
 			console.log('comment succeed');
+            comment.channel_id = $routeParams.channel_id;
+            comment.video_id = $routeParams.video_id;
 			$scope.comments.push(comment);
 		});
 		$scope.commentContent = '';

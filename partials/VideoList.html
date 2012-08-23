@@ -1,35 +1,38 @@
 <div ng-include="'/partials/Pager.html'"></div>
-<li ng-repeat="video in videos">
-    <div class="video_item">
-        <div class="video_thumb">
+<div ng-repeat="video in videos">
+    <div class="video_item row">
+        <span class="badge">{{ $index + offset + 1 }}</span>
+        <div class="video_thumb span2">
             <a href="{{channel.channel_id + '/' + video.video_id}}"  >
                 <img ng-src="{{ video.cover_img }}" />
             </a>
         </div>
-        <div class="video_info">
-            <a href="{{video.video_url}}" target="__blank" >
+        <div class="video_info span8">
+            <a class="title" href="{{channel.channel_id + '/' + video.video_id}}">
                 {{ video.title }}
             </a>
             <div>
-                <span>
+                <div>
                     <a href="{{channel.channel_id + '/' + video.video_id}}">
-                        Comments: 100
+                        评论: 100
                     </a>
-                </span>
-                <span>
+                </div>
+                <div>
                     <a ng-click="like(channel.channel_id, video.video_id)"> 
-                    like: {{ video.like }}
+                        <span class="icon-thumbs-up"></span>
+                    赞: {{ video.like }}
                     </a>
-                </span>
+                </div>
 
-                <span>
+                <div>
                     <a ng-click="dislike(channel.channel_id, video.video_id)">
-                    dislike: {{ video.dislike }}
+                        <span class="icon-thumbs-down"></span>
+                    踩: {{ video.dislike }}
                     </a>
-                </span>
+                </div>
 
             </div>
         </div>
     </div>
-</li>
+</div>
 <div ng-include="'/partials/Pager.html'"></div>
