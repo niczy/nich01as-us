@@ -29,7 +29,7 @@ angular.module('CommentsTree').filter('ifarray', function() {
 		scope: {
 			val: '=val'
 		},
-		template: '<li class="tree-node"><a class="comment_content" href="/channel/{{val.channel_id}}/{{val.video_id}}/{{val.id}}"> {{val.comment}}</a><a class="btn-link">回复</a><div ng-show="false" class="reply-container"><textarea></textarea><button class="btn">确定</button></div></li>',
+		template: '<li class="tree-node"><a class="comment_content" href="/channel/{{val.channel_id}}/{{val.video_id}}/{{val.id}}"> {{val.comment}}</a><a class="btn-link">回复</a><div ng-show="false" class="reply-container"><textarea class=""></textarea><button class="btn btn-primary">确定</button></div></li>',
 		link: function(scope, element, attrs) {
 			if (angular.isArray(scope.val.children)) {
 				var replyEle = angular.element(element.find('a')[1]);
@@ -49,7 +49,8 @@ angular.module('CommentsTree').filter('ifarray', function() {
                     Comment.save({'comment': replyArea.val()}, {}, function(comment){
                         comment.channel_id = scope.val.channel_id;
                         comment.video_id = scope.val.video_id;
-                        scope.val.children.push(comment);
+                        var tmpComment = [comment];
+                        scope.val.children = tmpComment.concat(scope.val.children);
                     });
 				});
 
@@ -116,7 +117,6 @@ function VideoListCntl($scope, $http, $routeParams, $resource) {
 		$scope.limit = data.limit;
 	})
 
-	Like = $resource("/api/video/like");
 
 	function findVideo(videos, video) {
 		for (var i = 0; i < videos.length; i++) {
@@ -142,6 +142,9 @@ function VideoListCntl($scope, $http, $routeParams, $resource) {
 			}
 		}
 	}
+
+
+	Like = $resource("/api/video/like");
 
 	$scope.like = function(channel_id, video_id) {
 		Like.get({
@@ -213,7 +216,8 @@ function VideoDetailCntl($scope, $routeParams, $resource) {
 			console.log('comment succeed');
             comment.channel_id = $routeParams.channel_id;
             comment.video_id = $routeParams.video_id;
-			$scope.comments.push(comment);
+            var tmpComments = [comment];
+            $scope.comments = tmpComments.concat($scope.comments);
 		});
 		$scope.commentContent = '';
 	}
@@ -242,5 +246,24 @@ function VideoDetailCntl($scope, $routeParams, $resource) {
 	$scope.replyComment = function(commendId) {
 		console.log(commentId);
 	}
+
+    Like = $resource("/api/video/like");
+
+	$scope.like = function(channel_id, video_id) {
+		$scope.video = Like.get({
+			"channel_id": channel_id,
+			"video_id": video_id
+		});
+	}
+
+	Dislike = $resource("/api/video/dislike");
+
+	$scope.dislike = function(channel_id, video_id) {
+		$scope.video = Dislike.get({
+			"channel_id": channel_id,
+			"video_id": video_id
+		});
+	}
+
 }
 

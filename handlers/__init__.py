@@ -28,7 +28,7 @@ def parse_offset_and_limit(handler, default_offset = 0, max_limit = 64, default_
 # otherwise None.
 # If the 'url' argument is provided, unlogged-in users will be
 # redirected to 'url'
-def require_login(url):
+def require_login(url = None):
     def login_check(fn):
         def Get(self, *args):
             self.user = self.request.cookies.get('id')

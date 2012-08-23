@@ -1,7 +1,25 @@
 {% extends 'templates/CenterLayout.html' %}
 {% block AppName %}ChannelListPageApp{% endblock %}
 {% block content %}
-<div id="head-banner" class="row"> <a href="/channel/girls"> 首页</a> This is head banner </div>
+<div id="head-banner" class="row"> 
+    <ul class="nav nav-pills">
+        <li>
+            <a href="/channel/girls"> 首页 </a> 
+        </li>
+        {% if user is defined %}
+            <li>
+            <a href="/signout">{{ user }} [登出]</a>
+            </li>
+        {% else %}
+            <li>
+                <a href="/signup"> 注册 </a>         
+            </li>
+            <li>
+                <a href="/signin"> 登录 </a> 
+            </li>
+        {% endif %}
+    </ul>
+</div>
     <div ng-view></div>
 <div id="footer-banner" class="row"> <a href="/channel/girls"> 首页</a> This is head banner </div>
 {% endblock %}

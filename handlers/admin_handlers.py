@@ -108,13 +108,12 @@ class ParserManageHandler(handlers.BasePageHandler):
         name = self.request.get("name")
         if name == "youku_girls":
             from tools import youku_parser
-            for i in xrange(10):
-                video_infos = youku_parser.parse_url("http://www.youku.com/v_showlist/t2c86g0d3p%d.html" % (i))
-                for video_info in video_infos:
-                    if not data_source.get_video_by_external_id(video_info["source"], video_info["external_id"]):
-                        video = data_source.create_video_from_dict("girls", video_info)
-                        video.calculate_score()
-                        video.put()
+            video_infos = youku_parser.parse_url("http://www.youku.com/v_showlist/t1c86g0d1.html")
+            for video_info in video_infos:
+                if not data_source.get_video_by_external_id(video_info["source"], video_info["external_id"]):
+                    video = data_source.create_video_from_dict("girls", video_info)
+                    video.calculate_score()
+                    video.put()
 
 
 

@@ -1,6 +1,7 @@
 import webapp2
 import handlers
 from handlers import BasePageHandler
+from handlers import require_login
 from index.indexes import ChannelIndex
 from index.indexes import VideoIndex
 from models.VideoModels import ChannelModel
@@ -43,6 +44,7 @@ class ChannelPageHandler(handlers.BasePageHandler):
     '''
     Return the chanel information as well as the video list.
     '''
+    @require_login()
     def get(self, channel_id, video_id = '', comment_id = ''):
         channel = data_source.get_channel(channel_id)
         offset, limit = handlers.parse_offset_and_limit(self)
@@ -68,6 +70,7 @@ class VideoHandler(handlers.BaseJsonHandler):
 
 class VideoPageHandler(handlers.BasePageHandler):
 
+    @require_login()
     def get(self, channel_id, video_id, comment_id=''):
         self.render("ChannelListPage.html")
 

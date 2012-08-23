@@ -1,19 +1,32 @@
-<div class="row">
-<div id="video-container" class="span6">
-</div>
+<div class="row video_detail">
+    <div class="span6">
+        <div id="video-container" >
+        </div>
+        <div class="like">
+            <a ng-click="like(video.channel_id, video.video_id)"> 
+                <span class="icon-thumbs-up"></span>
+            赞: {{ video.like }}
+            </a>
 
-<div id="comments-container" class="span4">
-    <div>
-        <textarea rows="2" cols="10" ng-model="commentContent">
-
-        </textarea>
-        <button class="btn btn-primary" ng-click="addComment()">
-            确定
-        </button>
+            <a ng-click="dislike(video.channel_id, video.video_id)">
+                <span class="icon-thumbs-down"></span>
+            踩: {{ video.dislike }}
+            </a>
+        </div>
     </div>
 
-    <div id="comments-tree">
+    <div id="comments-container" class="span4">
+        <div>
+            <textarea rows="2" cols="10" ng-model="commentContent">
+
+            </textarea>
+            <button class="btn btn-primary" ng-click="addComment()">
+                确定
+            </button>
+        </div>
+
+        <div id="comments-tree">
+        </div>
+        <div tree val='comments' channel_id="channel_id" video_id="video_id" comment_id="comment_id"></div>
     </div>
-    <div tree val='comments' channel_id="channel_id" video_id="video_id" comment_id="comment_id"></div>
-</div>
 </div>

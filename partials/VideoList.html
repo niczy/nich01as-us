@@ -1,7 +1,6 @@
 <div ng-include="'/partials/Pager.html'"></div>
-<div ng-repeat="video in videos">
+<div ng-repeat="video in videos" class="row">
     <div class="video_item row">
-        <span class="badge">{{ $index + offset + 1 }}</span>
         <div class="video_thumb span2">
             <a href="{{channel.channel_id + '/' + video.video_id}}"  >
                 <img ng-src="{{ video.cover_img }}" />
@@ -18,21 +17,24 @@
                     </a>
                 </div>
                 <div>
-                    <a ng-click="like(channel.channel_id, video.video_id)"> 
+                    <a ng-click="like(video.channel_id, video.video_id)"> 
                         <span class="icon-thumbs-up"></span>
                     赞: {{ video.like }}
                     </a>
                 </div>
 
                 <div>
-                    <a ng-click="dislike(channel.channel_id, video.video_id)">
+                    <a ng-click="dislike(video.channel_id, video.video_id)">
                         <span class="icon-thumbs-down"></span>
                     踩: {{ video.dislike }}
                     </a>
                 </div>
-
             </div>
         </div>
+        <div class="pull-right">
+            <span class="badge">{{ $index + offset + 1 }}</span>
+        </div>
+
     </div>
 </div>
 <div ng-include="'/partials/Pager.html'"></div>
