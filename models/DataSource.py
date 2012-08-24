@@ -38,6 +38,7 @@ def get_videos_in_channel(channel_id, offset = 0, limit = 16):
     key = _channel_key(channel_id)
     q = VideoModel.all()
     q.ancestor(key)
+    q.order("-created_datetime");
     q.order("-final_score")
     return q.fetch(limit, offset = offset)
 
