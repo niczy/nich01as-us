@@ -13,6 +13,6 @@ def score(ups, downs):
 def hot(ups, downs, date):
     s = score(ups, downs)
     order = log(max(abs(s), 1), 10)
-    sign = 1 if s > 0 else -1 if s < 0 else 0
+    sign = 1 if s > 0 else -1 if s < 0 else 0.1
     seconds = epoch_second(date) - 1134028003
     return round(order + sign * seconds / 45000, 7)

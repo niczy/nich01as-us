@@ -34,5 +34,13 @@ indexes:
 - kind: VideoModel
   ancestor: yes
   properties:
+  - name: final_score
+    direction: desc
+  - name: created_datetime
+    direction: desc
+
+- kind: VideoModel
+  ancestor: yes
+  properties:
   - name: final_socre
     direction: desc
