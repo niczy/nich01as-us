@@ -1,4 +1,4 @@
 cron:
 - description: daily crawl job
   url: /page/admin/parse/start
-  schedule: every 24 hours
+  schedule: every 2 hours
