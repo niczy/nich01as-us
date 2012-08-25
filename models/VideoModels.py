@@ -28,6 +28,12 @@ def video_view_counter(channel_id, video_id):
 def video_comment_counter(channel_id, video_id):
     return "VideoCommentCounter#%s#%s" % (channel_id, video_id)
 
+def video_like_history_counter(user, channel_id, video_id):
+    return "VideoLikeHistory#%s#%s#%s" % (user, channel_id, video_id)
+
+def video_dislike_history_counter(user, channel_id, video_id):
+    return "VideoDislikeHistory#%s#%s#%s" % (user, channel_id, video_id)
+    
 def counters_map(video):
     key = _counter_key(video)
     return {"VideoLikeCounter%s" % key: "like",

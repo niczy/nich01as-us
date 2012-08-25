@@ -79,12 +79,15 @@ class VideoLikeHandler(handlers.BaseJsonHandler):
     '''
     To like a video
     '''
+    @require_login()
     def post(self):
         channel_id = self.request.get("channel_id")
         video_id = self.request.get("video_id")   
         video = data_source.get_video(channel_id, video_id)
+        key = self.user
+        if not key: key = self.request.remote_addr
         if video:
-            data_source.like_video(channel_id, video_id)
+            data_source.like_video(key, channel_id, video_id)
             video["like"] += 1
             self.render_dict_as_json(video)
         else:
@@ -98,12 +101,15 @@ class VideoDislikeHandler(handlers.BaseJsonHandler):
     '''
     To dislike a video
     '''
+    @require_login()
     def post(self):
         channel_id = self.request.get("channel_id")
         video_id = int(self.request.get("video_id"))
         video = data_source.get_video(channel_id, video_id)
+        key = self.user
+        if not key: key = self.request.remote_addr
         if video:
-            data_source.dislike_video(channel_id, video_id)
+            data_source.dislike_video(key, channel_id, video_id)
             video["dislike"] += 1
             self.render_dict_as_json(video)
 

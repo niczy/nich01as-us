@@ -2,7 +2,9 @@ from models import VideoModels
 from models.VideoModels import ChannelModel
 from models.VideoModels import VideoModel
 from models.VideoModels import video_like_counter
+from models.VideoModels import video_like_history_counter
 from models.VideoModels import video_dislike_counter
+from models.VideoModels import video_dislike_history_counter
 from models.VideoModels import video_comment_counter
 from models.VideoModels import video_view_counter
 from models.CommentModels import CommentModel
@@ -42,12 +44,20 @@ def view_video(channel_id, video_id):
                      1,
                      COUNTER_UPDATE_SECONDS)
     
-def like_video(channel_id, video_id, delta=1):
+def like_video(key, channel_id, video_id, delta=1):
+    history = video_like_history_counter(key, channel_id, video_id)
+    if fastcounter.get_count(history) > 0:
+        return
+    fastcounter.incr(history, 1, 99999999)
     fastcounter.incr(video_like_counter(channel_id, video_id),
                      delta,
                      COUNTER_UPDATE_SECONDS)
  
-def dislike_video(channel_id, video_id, delta=1):
+def dislike_video(key, channel_id, video_id, delta=1):
+    history = video_dislike_history_counter(key, channel_id, video_id)
+    if fastcounter.get_count(history) > 0:
+        return
+    fastcounter.incr(history, 1, 99999999)
     fastcounter.incr(video_dislike_counter(channel_id, video_id),
                      delta,
                      COUNTER_UPDATE_SECONDS)
