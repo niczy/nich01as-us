@@ -44,3 +44,9 @@ indexes:
   properties:
   - name: final_socre
     direction: desc
+
+- kind: VideoModel
+  ancestor: yes
+  properties:
+  - name: quality_score
+    direction: desc

@@ -27,7 +27,7 @@ class ChannelListHandler(handlers.BasePageHandler):
 
 class ChannelHandler(handlers.BaseJsonHandler):
     '''
-    Return the chanel information as well as the video list.
+    Return the channel information as well as the video list.
     '''
     def get(self, channel_id):
         channel = data_source.get_channel(channel_id)
@@ -35,7 +35,7 @@ class ChannelHandler(handlers.BaseJsonHandler):
         videos = data_source.get_videos_in_channel(channel_id, offset = offset, limit = limit) 
         ret = {}
         ret["channel"] = channel.to_dict()
-        ret["videos"] = models.to_dict_array(videos)
+        ret["videos"] = videos
         ret["offset"] = offset
         ret["limit"] = limit
         self.render_dict_as_json(ret)
@@ -64,7 +64,7 @@ class VideoHandler(handlers.BaseJsonHandler):
     def get(self, channel_id, video_id):
         video = data_source.get_video(channel_id, video_id)
         if video:
-            self.render_dict_as_json(video.to_dict())
+            self.render_dict_as_json(video)
         else:
             self.response.out.write("{}") 
 
@@ -72,6 +72,7 @@ class VideoPageHandler(handlers.BasePageHandler):
 
     @require_login()
     def get(self, channel_id, video_id, comment_id=''):
+        data_source.view_video(channel_id, video_id)
         self.render("ChannelListPage.html")
 
 class VideoLikeHandler(handlers.BaseJsonHandler):
@@ -80,12 +81,12 @@ class VideoLikeHandler(handlers.BaseJsonHandler):
     '''
     def post(self):
         channel_id = self.request.get("channel_id")
-        video_id = self.request.get("video_id")
+        video_id = self.request.get("video_id")   
         video = data_source.get_video(channel_id, video_id)
         if video:
-            video.do_like()
-            video.put()
-            self.render_dict_as_json(video.to_dict())
+            data_source.like_video(channel_id, video_id)
+            video["like"] += 1
+            self.render_dict_as_json(video)
         else:
             self.render_dict_as_json({"error" : "Video not found channel_id=%s, video_id=%s" % (channel_id, video_id)})
 
@@ -102,9 +103,9 @@ class VideoDislikeHandler(handlers.BaseJsonHandler):
         video_id = int(self.request.get("video_id"))
         video = data_source.get_video(channel_id, video_id)
         if video:
-            video.do_dislike()
-            video.put()
-            self.render_dict_as_json(video.to_dict())
+            data_source.like_video(channel_id, video_id)
+            video["dislike"] += 1
+            self.render_dict_as_json(video)
 
     def get(self):
         if configs.DEBUG:

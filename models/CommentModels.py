@@ -7,7 +7,7 @@ Created on Aug 19, 2012
 from google.appengine.ext import db
 
 def comment_like_counter(channel_id, video_id, comment_id):
-    return "CommentCounter#%s#%s#%s" % (channel_id, video_id, comment_id)
+    return "CommentLikeCounter#%s#%s#%s" % (channel_id, video_id, comment_id)
 
 def comment_dislike_counter(channel_id, video_id, comment_id):
     return "CommentDislikeCounter#%s#%s#%s" % (channel_id, video_id, comment_id)
