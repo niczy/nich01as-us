@@ -42,7 +42,7 @@ class ChannelHandler(handlers.BaseJsonHandler):
 
 class ChannelPageHandler(handlers.BasePageHandler):
     '''
-    Return the chanel information as well as the video list.
+    Return the channel information as well as the video list.
     '''
     @require_login()
     def get(self, channel_id, video_id = '', comment_id = ''):
