@@ -1,6 +1,7 @@
 from google.appengine.ext import db
 import models
 from tools.sort import hot
+from tools.sort import hot2
 import logging
 
 class ChannelModel(db.Model):
@@ -35,7 +36,7 @@ def counters_map(video):
             "VideoCommentCounter%s" % key: "comment"}
 
 def score(video):
-    return hot(video["like"], video["dislike"], video["created_datetime"]) + video["quality_score"]
+    return hot2(video["like"], video["dislike"],  video["view"], video["comment"], video["quality_score"], video["created_datetime"])
     
 def _counter_key(video):
     return "#%s#%d" % (video["channel_id"], video["video_id"])

@@ -103,7 +103,7 @@ class VideoDislikeHandler(handlers.BaseJsonHandler):
         video_id = int(self.request.get("video_id"))
         video = data_source.get_video(channel_id, video_id)
         if video:
-            data_source.like_video(channel_id, video_id)
+            data_source.dislike_video(channel_id, video_id)
             video["dislike"] += 1
             self.render_dict_as_json(video)
 

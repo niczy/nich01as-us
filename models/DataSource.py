@@ -17,7 +17,9 @@ import types
 import logging
 
 COMMENT_TREE_MAX_SIZE = 10000
-COMMENT_TREE_CACHE_SECONDS = 2
+COMMENT_TREE_CACHE_SECONDS = 5
+CHANNEL_VIDEOS_CACHE_SECONDS = 30
+GET_VIDEO_CACHE_SECONDS = 10
 
 COUNTER_UPDATE_SECONDS = 1
 
@@ -26,6 +28,7 @@ def get_channel(channel_id):
         return None
     return db.get(_channel_key(channel_id))
 
+@Cached(GET_VIDEO_CACHE_SECONDS)
 def get_video(channel_id, video_id):
     if channel_id and video_id:
         video_key = db.Key.from_path("ChannelModel", channel_id, "VideoModel", int(video_id))
@@ -48,7 +51,7 @@ def dislike_video(channel_id, video_id, delta=1):
     fastcounter.incr(video_dislike_counter(channel_id, video_id),
                      delta,
                      COUNTER_UPDATE_SECONDS)
-       
+
 def get_video_by_external_id(source, external_id):
     q = VideoModel.all()
     q.filter("external_id =", external_id)
@@ -58,6 +61,7 @@ def get_video_by_external_id(source, external_id):
         return result[0]
     return None
 
+@Cached(CHANNEL_VIDEOS_CACHE_SECONDS)
 def get_videos_model_in_channel(channel_id, offset = 0, limit = 16):
     key = _channel_key(channel_id)
     q = VideoModel.all()
@@ -66,11 +70,11 @@ def get_videos_model_in_channel(channel_id, offset = 0, limit = 16):
     return q.fetch(limit, offset = offset)
 
 def get_videos_in_channel(channel_id, offset = 0, limit = 16):
-    videos = get_videos_model_in_channel(channel_id, offset, limit + limit)
+    videos = get_videos_model_in_channel(channel_id, 0, offset + limit + limit)
     videos = models.to_dict_array(videos)
     _populate_video_counters(videos)
-    _score_videos(videos)
-    return videos[0:limit]
+    videos = _score_videos(videos)
+    return videos[offset:offset+limit]
 
 def create_video_from_dict(channel_id, video_info):
     channel = get_channel(channel_id)
@@ -176,4 +180,4 @@ def _populate_video_counters(videos):
 def _score_videos(videos):
     for v in videos:
         v["final_score"] = VideoModels.score(v)
-    return sorted(videos, key=lambda video: video["final_score"])
+    return sorted(videos, key=lambda video: -video["final_score"])

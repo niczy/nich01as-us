@@ -8,7 +8,7 @@ from google.appengine.ext import db
 import hashlib
 
 PASSWORD_HASH_KEY = "THISISARANDOMSEQUENCE4108s981sdnvSKJFN192!AAS"
-USER_COOKIE_HASH_KEY = "THISISANOTHERRANDOMSEQUENCE23498q823jhfZKJFDQS%^%$"
+USER_COOKIE_HASH_KEY = ""
 
 def get_user_cookie_key(id):
     hashed = hashlib.md5()

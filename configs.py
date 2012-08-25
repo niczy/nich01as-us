@@ -1,4 +1,5 @@
 DEBUG = True
+CACHE = True
 
 router_path = {
             "query_version" : r'/api/client/queryversion', #Query either the client page version or the client version.

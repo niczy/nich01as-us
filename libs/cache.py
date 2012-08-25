@@ -6,6 +6,7 @@ Created on Aug 19, 2012
 
 from google.appengine.api import memcache
 import hashlib
+import configs
 
 def Cached(interval):
     """A decorator that automatically cache the return value of the decorated
@@ -21,6 +22,7 @@ def Cached(interval):
         
     def wrapper(fn):
         def inner_wrapper(*args):
+            if not configs.CACHE: return fn(*args)
             key = gen_key(*args)
             value = memcache.get(key)
             if not value:
