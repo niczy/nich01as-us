@@ -10,6 +10,11 @@ jinja_environment = jinja2.Environment(
         loader = jinja2.FileSystemLoader(os.path.dirname(__file__))
         )
 
+class ErrorCodes():
+    NOT_LOGGED_IN = 1
+    SIGNUP_FAILED = 2
+    SIGNIN_FAILED = 3
+    
 def parse_offset_and_limit(handler, default_offset = 0, max_limit = 64, default_limit = 16):
     offset = default_offset 
     if handler.request.get("offset"):
@@ -42,15 +47,15 @@ def require_login(url = None):
     return login_check
 
 # Decorator applies to json api that requires login or user's information.
-# The 'err_msg' will be returned in the json format {'error': errr_msg}
+# The 'err_msg' will be returned in the json format {'error_code': err_code, 'error': err_msg}
 # if the user is not logged in.
-def require_login_json(err_msg = None):
+def require_login_json(err_code = None, err_msg = None):
     def login_check(fn):
         def Get(self, *args):
             _get_user_id(self)
                     
-            if self.user == None and err_msg != None:
-                self.render_dict_as_json({'error': err_msg})
+            if self.user == None and err_code != None:
+                self.error(err_code, err_msg)
                 return
             else:
                 fn(self, *args)
@@ -88,3 +93,8 @@ class BaseJsonHandler(webapp2.RequestHandler):
         
     def redner_model_as_json(self, json_model):
         self.render_dict_as_json(json_model.to_dict())
+    
+    def error(self, err_code, err_msg=None):
+        response = {'error_code': err_code}
+        if err_msg: response['error'] = err_msg
+        self.render_dict_as_json(response)

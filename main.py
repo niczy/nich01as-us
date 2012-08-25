@@ -21,6 +21,7 @@ from handlers import search_handlers
 from handlers import video_handlers
 from handlers import parser_handlers
 from handlers import admin_handlers
+from handlers import user_handlers
 from libs import fastcounter
 from configs import router_path
 import os
@@ -40,6 +41,9 @@ app = webapp2.WSGIApplication([(router_path["query_version"], client_page.Versio
                                 (r'/api/addcomment/(\w+)/(\w+)/(\d+)', comment_handlers.CommentHandler),
                                 (r'/api/likecomment/(\w+)/(\w+)/(\d+)', comment_handlers.CommentLikeHandler),
                                 (r'/api/dislikecomment/(\w+)/(\w+)/(\d+)', comment_handlers.CommentDislikeHandler),
+                                (r'/api/signin', user_handlers.SignInHandler),
+                                (r'/api/signout', user_handlers.SignOutHandler),
+                                (r'/api/signup', user_handlers.SignUpHandler),
                                 (r'/task/counter_persist_incr', fastcounter.CounterPersistIncr),
                                 (router_path["channel_page"], video_handlers.ChannelPageHandler),
                                 (router_path["video_page_with_comment"], video_handlers.VideoPageHandler),
@@ -52,8 +56,8 @@ app = webapp2.WSGIApplication([(router_path["query_version"], client_page.Versio
                                 (router_path["admin_video_update"], admin_handlers.VideoUpdateHandler),
                                 (router_path["admin_parser"], admin_handlers.ParserManageHandler),
                                 (router_path["admin_start_parse"], admin_handlers.StartParseHandler),
-                                (router_path["signup_page"], client_page.SignUpHandler),
-                                (router_path["signin_page"], client_page.SignInHandler),
+                                (router_path["signup_page"], user_handlers.SignUpPageHandler),
+                                (router_path["signin_page"], user_handlers.SignInPageHandler),
                                 (r'/debug', comment_handlers.DebugHandler)
     ],
                               debug=True)

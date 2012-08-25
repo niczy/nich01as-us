@@ -5,6 +5,7 @@ Created on Aug 18, 2012
 '''
 
 import handlers
+from handlers import ErrorCodes
 from handlers import require_login
 from handlers import require_login_json
 from models.DataSource import get_comment_tree
@@ -31,7 +32,7 @@ class CommentHandler(handlers.BaseJsonHandler):
     '''
     Add a comment under the given comment id.
     '''
-    @require_login_json('Not logged in')
+    @require_login_json(ErrorCodes.NOT_LOGGED_IN, 'Not logged in')
     def post(self, channel_id = None, video_id = None, comment_id='-1'):
         comment_content = self.request.get('comment')
         logging.info(self.request.body)

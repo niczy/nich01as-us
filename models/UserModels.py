@@ -26,18 +26,21 @@ def set_login(handler, id):
     handler.response.headers.add_header('Set-Cookie','id=' + str(id) + '; expires=Sun, 31-May-2999 23:59:59 GMT; path=/;')
     handler.response.headers.add_header('Set-Cookie','key=' + cookie_key + '; expires=Sun, 31-May-2999 23:59:59 GMT; path=/;')
 
-def logout(hanlder):
+def logout(handler):
     handler.response.headers.add_header('Set-Cookie','id=deleted; expires=Sun, 31-May-1971 23:59:59 GMT; path=/;')
     handler.response.headers.add_header('Set-Cookie','key=deleted; expires=Sun, 31-May-1971 23:59:59 GMT; path=/;')
     
 # Try signup, return true if succeeded, raise error if user existed.
 def signup(id, email, password):   
+    if not id: raise Exception("id is empty")
+    if not password: raise Exception("id is empty")
     users = db.Query(User).filter("id =", id).fetch(limit = 1)
     for u in users:
         raise Exception("id %s already exist." % id)
-    users = db.Query(User).filter("email =", email).fetch(limit = 1)
-    for u in users:
-        raise Exception("email address %s is already taken." % email)
+    if email:
+        users = db.Query(User).filter("email =", email).fetch(limit = 1)
+        for u in users:
+            raise Exception("email address %s is already taken." % email)
     user = User(id = id, password = get_hashed_password(password), email = email)
     user.put()
     return True
@@ -46,10 +49,12 @@ def signup(id, email, password):
 def signin(id, password):  
     users = db.Query(User).filter("id =", id).fetch(limit = 1)
     hashed_pw = get_hashed_password(password)
+    if len(users) == 0:
+        raise Exception("id: %s doesn't exist." % id)
     for u in users:
         if hashed_pw == u.password:
             return True
-    return False
+    raise Exception("incorrect password.")
 
 class User(db.Model):
     id = db.StringProperty(required=True, indexed=True)
