@@ -13,7 +13,12 @@
             <div>
                 <div>
                     <a href="{{channel.channel_id + '/' + video.video_id}}">
-                        评论: 100
+                        评论: {{ video.comment }}
+                    </a>
+                </div>
+                <div>
+                    <a href="{{channel.channel_id + '/' + video.video_id}}">
+                        观看: {{ video.view }}
                     </a>
                 </div>
                 <div>

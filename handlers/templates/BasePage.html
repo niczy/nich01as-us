@@ -1,4 +1,5 @@
-<html ng-app="App">
+<!DOCTYPE html>
+<html xmlns:wb="http://open.weibo.com/wb" ng-app="App">
     <head>
         <title> {% block title %} {% endblock %} </title>
         <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css" type="text/css" />
@@ -12,6 +13,7 @@
         <script type="text/javascript" src="/script/vendors/angular-resource-1.0.1.js"></script>
         <script type="text/javascript" src="/script/{% block AppName %}{% endblock %}.js" ></script>
         <script type="text/javascript" src="/script/services.js"></script>
+        <script src="http://tjs.sjs.sinajs.cn/open/api/js/wb.js?appkey=" type="text/javascript" charset="utf-8"></script>
     </head>
 
     <body>
