@@ -1,27 +1,105 @@
 {% extends 'templates/CenterLayout.html' %}
 {% block AppName %}ChannelListPageApp{% endblock %}
 {% block content %}
+
+{% raw %}
+<div  ng-controller="UserCntl"> 
 <div id="head-banner" class="row"> 
     <ul class="nav nav-pills">
         <li>
             <a href="/channel/girls"> 首页 </a> 
         </li>
-        {% if user is defined %}
-            <li>
-            <a href="/signout">{{ user }} [登出]</a>
-            </li>
-        {% else %}
-            <li>
-                <a href="/signup"> 注册 </a>         
-            </li>
-            <li>
-                <a href="/signin"> 登录 </a> 
-            </li>
-        {% endif %}
+        <li ng-show="loginUser">
+            <a ng-click="logout()">{{ loginUser }} [登出]</a>
+        </li>
+        <li ng-hide="loginUser">
+            <a ng-click="showLogin()"> 注册 </a>         
+        </li>
+        <li ng-hide="loginUser">
+            <a ng-click="showLogin()"> 登录 </a> 
+        </li>
+        <li>
+            <wb:share-button></wb:share-button>
+        </li>
     </ul>
-</div><wb:share-button></wb:share-button>
+</div>
+
+    <div ng-show="showOverflow" ng-click="hideLogin()" class="overflow" >
+    </div>
+    <div ng-show="showOverflow" class="flow-box">
+        <div class="row">
+            <div class="span6">
+                <form class="form-horizontal">
+                    <div class="control-group">
+                        <label class="control-label" for="inputId">用户名</label>
+                        <div class="controls">
+                            <input type="text" id="inputId" ng-model="userName" placeholder="用户名">
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="inputPassword">密码</label>
+                            <div class="controls">
+                                <input type="password" id="inputPassword" ng-model="password" placeholder="密码">
+                            </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="controls">
+                            <button ng-click="login()" type="submit" class="btn btn-primary">登录</button>
+                            <span class="alert alert-error">
+                                    {{ loginError }}
+                            </span>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+
+            <div class="span6">
+                <form class="form-horizontal">
+                    <div class="control-group">
+                        <label class="control-label" for="inputId">用户名</label>
+                        <div class="controls">
+                            <input type="text" id="inputId" ng-model="rUserName" placeholder="用户名">
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="inputPassword">密码</label>
+                            <div class="controls">
+                                <input type="password" id="inputPassword" ng-model="rPassword" placeholder="密码">
+                            </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="verifyPassword">再次输入密码</label>
+                            <div class="controls">
+                                <input type="password" id="verifyPassword" ng-model="rVerifyPassword" placeholder="密码">
+                            </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="inputEmail">邮箱</label>
+                            <div class="controls">
+                                <input type="password" id="inputEmail" ng-model="rEmail" placeholder="邮箱">
+                            </div>
+                    </div>
+
+                    <div class="control-group">
+                        <div class="controls">
+                            <button type="submit" class="btn btn-primary" ng-click="regist()" >注册</button>
+                            <span class="alert alert-error">
+                                    {{ registError }}
+                            </span>
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <div ng-view></div>
-<div id="footer-banner" class="row"> <a href="/channel/girls"> 首页</a> This is head banner </div>
+
+    <div id="footer-banner" class="row"> <a href="/channel/girls"> 首页</a> This is head banner </div>
+</div>
+{% endraw %}
 {% endblock %}
 
 

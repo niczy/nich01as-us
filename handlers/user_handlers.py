@@ -3,7 +3,7 @@ Created on Aug 25, 2012
 
 @author: charliezhang
 '''
-
+import handlers
 from handlers import BasePageHandler
 from handlers import BaseJsonHandler
 from handlers import ErrorCodes
@@ -16,6 +16,15 @@ from models.UserModels import logout
 from models.UserModels import set_login
 
 import configs
+
+class UserInfoHandler(BaseJsonHandler):
+
+    def get(self):
+        handlers._get_user_id(self);
+        if self.user:
+            self.render_dict_as_json({"id": self.user});
+        else:
+            self.render_dict_as_json({});
 
 class SignUpHandler(BaseJsonHandler):
     def post(self):

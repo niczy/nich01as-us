@@ -177,6 +177,8 @@ function VideoListCntl($scope, $http, $routeParams, $resource) {
 		});
 	}
 
+    $scope.userName = 'fuck';
+
 }
 
 function VideoDetailCntl($scope, $routeParams, $resource) {
@@ -267,3 +269,73 @@ function VideoDetailCntl($scope, $routeParams, $resource) {
 
 }
 
+
+function UserCntl($scope, $resource) {
+
+    var Userinfo = $resource("/api/userinfo");
+
+    Userinfo.get(function(data) {
+        if (data["id"] != undefined) {
+            $scope.loginUser = data["id"];
+        }
+    });
+    var Signin = $resource("/api/signin");
+    $scope.login = function login() {
+        console.log("login clicked" + $scope.userName);
+        Signin.get({"id": $scope.userName, "password": $scope.password}, function(data) {
+            console.log(data);
+            if (data["id"] == undefined) {
+                $scope.loginError = data["error"];
+            } else {
+                $scope.loginUser = data["id"];
+                $scope.loginError = "";
+                $scope.hideLogin();
+            }
+        });
+    }
+
+    var Signup = $resource("/api/signup");
+
+    $scope.regist = function() {
+        console.log("regist clicked" + $scope.rUserName);
+
+        if ($scope.rPassword != $scope.rVerifyPassword) {
+            $scope.registError = "两次输入的密码不一致，请重新输入";
+            return;
+        }
+        var args = {"id": $scope.rUserName, "password": $scope.rPassword};
+        if ($scope.rEmail != undefined) {
+            args["rEmail"] = $scope.rEmail;
+        }
+        Signup.get(args, function(data) {
+            console.log(data);
+            if (data["id"] != undefined) {
+                $scope.loginUser = data["id"];
+                $scope.registError = "";
+                $scope.hideLogin();
+            } else {
+                $scope.registError = data["error"];
+            }
+        });
+    }
+
+    $scope.showOverflow = false;
+
+    $scope.showLogin = function() {
+        $scope.showOverflow = true;
+    }
+
+    $scope.hideLogin = function() {
+        $scope.showOverflow = false;
+    }
+
+    var Logout = $resource("/api/signout");
+
+    $scope.logout = function() {
+        Logout.get(function(data) {
+           $scope.loginUser = ""; 
+        });
+    }
+
+
+}

@@ -44,6 +44,7 @@ app = webapp2.WSGIApplication([(router_path["query_version"], client_page.Versio
                                 (r'/api/signin', user_handlers.SignInHandler),
                                 (r'/api/signout', user_handlers.SignOutHandler),
                                 (r'/api/signup', user_handlers.SignUpHandler),
+                                (r'/api/userinfo', user_handlers.UserInfoHandler),
                                 (r'/task/counter_persist_incr', fastcounter.CounterPersistIncr),
                                 (router_path["channel_page"], video_handlers.ChannelPageHandler),
                                 (router_path["video_page_with_comment"], video_handlers.VideoPageHandler),
