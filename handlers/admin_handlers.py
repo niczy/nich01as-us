@@ -20,7 +20,7 @@ class ChannelUpdateHandler(handlers.BasePageHandler):
 
         if channel_id:
             offset, limit = handlers.parse_offset_and_limit(self)
-            videos = data_source.get_videos_model_in_channel(channel_id, offset = offset, limit = limit)
+            videos = data_source.get_videos_model_in_channel(channel_id, offset, limit)
             channel = data_source.get_channel(channel_id)
             if channel:
                 values["channel"] = channel
