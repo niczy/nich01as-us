@@ -30,6 +30,8 @@ indexes:
   properties:
   - name: final_score
     direction: desc
+  - name: quality_score
+    direction: desc
 
 - kind: VideoModel
   ancestor: yes
