@@ -1,6 +1,6 @@
 <div ng-include="'/partials/Pager.html'"></div>
 <div ng-repeat="video in videos" class="row">
-    <div class="video_item row">
+    <div class="video_item well row">
         <div class="video_thumb span2">
             <a href="{{channel.channel_id + '/' + video.video_id}}"  >
                 <img ng-src="{{ video.cover_img }}" />
@@ -8,32 +8,29 @@
         </div>
         <div class="video_info span8">
             <a class="title" href="{{channel.channel_id + '/' + video.video_id}}">
+                <font color="#41418A">
                 {{ video.title }}
+                </font>
             </a>
             <div>
-                <div>
-                    <a href="{{channel.channel_id + '/' + video.video_id}}">
-                        评论: {{ video.comment }}
-                    </a>
-                </div>
-                <div>
-                    <a href="{{channel.channel_id + '/' + video.video_id}}">
-                        观看: {{ video.view }}
-                    </a>
-                </div>
-                <div>
-                    <a ng-click="like(video.channel_id, video.video_id)"> 
-                        <span class="icon-thumbs-up"></span>
-                    赞: {{ video.like }}
-                    </a>
-                </div>
+                <a href="{{channel.channel_id + '/' + video.video_id}}">
+                    <span class="icon-pencil"></span>
+                    评论: {{ video.comment }}
+                </a>
 
-                <div>
-                    <a ng-click="dislike(video.channel_id, video.video_id)">
-                        <span class="icon-thumbs-down"></span>
+                <a href="{{channel.channel_id + '/' + video.video_id}}">
+                    <span class="icon-play"></span>
+                    观看: {{ video.view }}
+                </a>
+
+                <a  ng-click="like(video.channel_id, video.video_id)"> 
+                    <span class="icon-thumbs-up"></span>
+                    赞: {{ video.like }}
+                </a>
+                <a ng-click="dislike(video.channel_id, video.video_id)">
+                    <span class="icon-thumbs-down"></span>
                     踩: {{ video.dislike }}
-                    </a>
-                </div>
+                </a>
             </div>
         </div>
         <div class="pull-right">

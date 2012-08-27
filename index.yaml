@@ -30,7 +30,7 @@ indexes:
   properties:
   - name: final_score
     direction: desc
-  - name: quality_score
+  - name: created_datetime
     direction: desc
 
 - kind: VideoModel
@@ -38,7 +38,7 @@ indexes:
   properties:
   - name: final_score
     direction: desc
-  - name: created_datetime
+  - name: quality_score
     direction: desc
 
 - kind: VideoModel

@@ -29,7 +29,7 @@ angular.module('CommentsTree').filter('ifarray', function() {
 		scope: {
 			val: '=val'
 		},
-		template: '<li class="tree-node"><a class="comment_content" href="/channel/{{val.channel_id}}/{{val.video_id}}/{{val.id}}"> {{val.comment}}</a><a class="btn-link">回复</a><div ng-show="false" class="reply-container"><textarea class=""></textarea><button class="btn btn-primary">确定</button></div></li>',
+		template: '<li class="tree-node"><a class="comment_content" href="/channel/{{val.channel_id}}/{{val.video_id}}/{{val.id}}"> {{val.comment}}</a><span class="comment-user"><font>({{val.user}})</font></span><a class="btn-link">回复</a><div ng-show="false" class="reply-container"><textarea class=""></textarea><button class="btn btn-primary">确定</button></div></li>',
 		link: function(scope, element, attrs) {
 			if (angular.isArray(scope.val.children)) {
 				var replyEle = angular.element(element.find('a')[1]);
