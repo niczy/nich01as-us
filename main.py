@@ -17,6 +17,7 @@
 import webapp2
 from handlers import client_page
 from handlers import comment_handlers
+from handlers import cron_handlers
 from handlers import search_handlers
 from handlers import video_handlers
 from handlers import parser_handlers
@@ -59,6 +60,7 @@ app = webapp2.WSGIApplication([(router_path["query_version"], client_page.Versio
                                 (router_path["admin_start_parse"], admin_handlers.StartParseHandler),
                                 (router_path["signup_page"], user_handlers.SignUpPageHandler),
                                 (router_path["signin_page"], user_handlers.SignInPageHandler),
+                                (router_path["cron_persist_channel"], cron_handlers.PersistChannelListHandler),
                                 (r'/debug', comment_handlers.DebugHandler)
     ],
                               debug=True)
