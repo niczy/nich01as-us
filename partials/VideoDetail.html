@@ -20,15 +20,18 @@
     </div>
 
     <div id="comments-container" class="span4">
-        <div>
-            <textarea rows="2" cols="10" ng-model="commentContent">
+        <textarea rows="2" cols="10" ng-model="commentContent">
 
-            </textarea>
+        </textarea>
+        <div class="comment-button">
+            <span class="alert alert-error" ng-show="commentError">{{commentError}}</span>
             <button class="btn btn-primary" ng-click="addComment()">
                 确定
             </button>
+            <button class="btn btn-link" ng-click="refreshTree()">
+               刷新评论 
+            </button>
         </div>
-
         <div id="comments-tree">
         </div>
         <div tree val='comments' channel_id="channel_id" video_id="video_id" comment_id="comment_id"></div>

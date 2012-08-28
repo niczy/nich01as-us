@@ -1,7 +1,7 @@
 cron:
 - description: daily crawl job
   url: /page/admin/parse/start
-  schedule: every 48 hours
+  schedule: every 12 hours
 
 cron:
 - description: persist scoring info of channel list to datastore

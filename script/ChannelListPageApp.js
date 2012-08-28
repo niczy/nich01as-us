@@ -29,28 +29,36 @@ angular.module('CommentsTree').filter('ifarray', function() {
 		scope: {
 			val: '=val'
 		},
-		template: '<li class="tree-node"><a class="comment_content" href="/channel/{{val.channel_id}}/{{val.video_id}}/{{val.id}}"> {{val.comment}}</a><span class="comment-user"><font>({{val.user}})</font></span><a class="btn-link">回复</a><div ng-show="false" class="reply-container"><textarea class=""></textarea><button class="btn btn-primary">确定</button></div></li>',
+		template: '<li class="tree-node"><a class="comment_content" href="/channel/{{val.channel_id}}/{{val.video_id}}/{{val.id}}"> {{val.comment}}</a><span class="comment-user"><font>({{val.user}})</font></span><a class="btn-link">回复</a><div ng-show="false" class="reply-container"><textarea class=""></textarea><div><span ng-show="false" class="alert alert-error">请先登陆</span><button class="btn btn-primary">确定</button></div></div></li>',
 		link: function(scope, element, attrs) {
 			if (angular.isArray(scope.val.children)) {
 				var replyEle = angular.element(element.find('a')[1]);
 				var replyContainer = element.find('div');
 				var replyButton = replyContainer.find('button');
 				var replyArea = replyContainer.find('textarea');
+                var replyError = replyContainer.find("span");
                 var opend = false;
-				replyButton.bind('click', function() {
-                    toogleReply();
-					console.log(replyArea.val());
-					var Comment = $resource("/api/addcomment/:channel_id/:video_id/:comment_id", {
+                var Comment = $resource("/api/addcomment/:channel_id/:video_id/:comment_id", {
 						"channel_id": scope.val.channel_id,
 						'video_id': scope.val.video_id,
                         'comment_id': scope.val.id,
 					});
 
+				replyButton.bind('click', function() {
+					console.log(replyArea.val());
+					
                     Comment.save({'comment': replyArea.val()}, {}, function(comment){
+                        if (comment["error_code"] === 1) {
+                            replyError.show();
+                            return;
+                        }
                         comment.channel_id = scope.val.channel_id;
                         comment.video_id = scope.val.video_id;
                         var tmpComment = [comment];
                         scope.val.children = tmpComment.concat(scope.val.children);
+                        replyArea.val("");
+                        toogleReply();
+                        replyError.hide();
                     });
 				});
 
@@ -216,12 +224,17 @@ function VideoDetailCntl($scope, $routeParams, $resource) {
 		function(comment) {
 			console.log(comment);
 			console.log('comment succeed');
+            if (comment['error_code'] === 1) {
+                $scope.commentError = "请先登陆";
+                return;
+            }
             comment.channel_id = $routeParams.channel_id;
             comment.video_id = $routeParams.video_id;
             var tmpComments = [comment];
             $scope.comments = tmpComments.concat($scope.comments);
+            $scope.commentContent = '';
+            $scope.commentError = "";
 		});
-		$scope.commentContent = '';
 	}
 
 	var Comments = $resource('/api/getcomment/:channel_id/:video_id/:comment_id', {
@@ -241,8 +254,10 @@ function VideoDetailCntl($scope, $routeParams, $resource) {
 		});
 	}
 
-	$scope.refreshTree = function(comment_id) {
-		console.log(comment_id);
+	$scope.refreshTree = function() {
+        $scope.comments = Comments.query(function(comments) {
+            extendInfo($scope.comments);
+        });
 	}
 
 	$scope.replyComment = function(commendId) {
