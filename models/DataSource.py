@@ -20,8 +20,9 @@ import logging
 
 COMMENT_TREE_MAX_SIZE = 10000
 COMMENT_TREE_CACHE_SECONDS = 5
-CHANNEL_VIDEOS_CACHE_SECONDS = 30
-GET_VIDEO_CACHE_SECONDS = 10
+CHANNEL_VIDEOS_CACHE_SECONDS = 3600
+MAX_CHANNEL_SIZE = 1000
+GET_VIDEO_CACHE_SECONDS = 100
 
 COUNTER_UPDATE_SECONDS = 1
 
@@ -30,11 +31,17 @@ def get_channel(channel_id):
         return None
     return db.get(_channel_key(channel_id))
 
+def get_video_model(channel_id, video_id):
+    if channel_id and video_id:
+        video_key = db.Key.from_path("ChannelModel", channel_id, "VideoModel", int(video_id))
+        video = db.get(video_key)
+        return video
+    return None
+
 @Cached(GET_VIDEO_CACHE_SECONDS)
 def get_video(channel_id, video_id):
     if channel_id and video_id:
-        video_key = db.Key.from_path("ChannelModel", channel_id, "VideoModel", int(video_id))
-        video = db.get(video_key).to_dict()
+        video = get_video_model(channel_id, video_id).to_dict()
         _populate_video_counters(video)
         return video
     return None
@@ -76,11 +83,11 @@ def get_videos_model_in_channel(channel_id, offset = 0, limit = 16):
     key = _channel_key(channel_id)
     q = VideoModel.all()
     q.ancestor(key)
-    q.order("-quality_score")
+    q.order("-editor_score")
     return q.fetch(limit, offset = offset)
 
 def get_videos_in_channel(channel_id, offset = 0, limit = 16):
-    videos = get_videos_model_in_channel(channel_id, 0, offset + limit + limit)
+    videos = get_videos_model_in_channel(channel_id, 0, MAX_CHANNEL_SIZE)
     videos = models.to_dict_array(videos)
     _populate_video_counters(videos)
     videos = _score_videos(videos)

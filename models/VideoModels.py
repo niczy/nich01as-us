@@ -42,7 +42,7 @@ def counters_map(video):
             "VideoCommentCounter%s" % key: "comment"}
 
 def score(video):
-    return hot2(video["like"], video["dislike"],  video["view"], video["comment"], video["quality_score"], video["created_datetime"])
+    return hot2(video["like"], video["dislike"],  video["view"], video["comment"], video["editor_score"], video["created_datetime"])
     
 def _counter_key(video):
     return "#%s#%d" % (video["channel_id"], video["video_id"])
@@ -52,7 +52,7 @@ class VideoModel(db.Model):
     cover_img = db.StringProperty()
     video_url = db.StringProperty()
     editor_score = db.IntegerProperty(default = 0)
-    quality_score = db.FloatProperty(default = 0.0)
+    final_score = db.FloatProperty(default = 0.0)
     source = db.StringProperty(default = "")
     external_id = db.StringProperty(default = "")
     created_datetime = db.DateTimeProperty(auto_now_add = True)

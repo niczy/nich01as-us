@@ -28,6 +28,18 @@ indexes:
 - kind: VideoModel
   ancestor: yes
   properties:
+  - name: editor_score
+    direction: desc
+
+- kind: VideoModel
+  ancestor: yes
+  properties:
+  - name: final_score
+    direction: desc
+
+- kind: VideoModel
+  ancestor: yes
+  properties:
   - name: final_score
     direction: desc
   - name: created_datetime
