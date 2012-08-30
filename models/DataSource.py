@@ -24,8 +24,6 @@ CHANNEL_VIDEOS_CACHE_SECONDS = 3600
 MAX_CHANNEL_SIZE = 1000
 GET_VIDEO_CACHE_SECONDS = 100
 
-COUNTER_UPDATE_SECONDS = 1
-
 def get_channel(channel_id):
     if not channel_id:
         return None
@@ -41,33 +39,30 @@ def get_video_model(channel_id, video_id):
 @Cached(GET_VIDEO_CACHE_SECONDS)
 def get_video(channel_id, video_id):
     if channel_id and video_id:
-        video = get_video_model(channel_id, video_id).to_dict()
+        video = get_video_model(channel_id, video_id)
+        if not video:
+            return None
+        video = video.to_dict()
         _populate_video_counters(video)
         return video
     return None
 
 def view_video(channel_id, video_id):
-    fastcounter.incr(video_view_counter(channel_id, video_id),
-                     1,
-                     COUNTER_UPDATE_SECONDS)
+    fastcounter.incr(video_view_counter(channel_id, video_id))
     
 def like_video(key, channel_id, video_id, delta=1):
     history = video_like_history_counter(key, channel_id, video_id)
     if fastcounter.get_count(history) > 0:
         return
-    fastcounter.incr(history, 1, 99999999)
-    fastcounter.incr(video_like_counter(channel_id, video_id),
-                     delta,
-                     COUNTER_UPDATE_SECONDS)
+    fastcounter.incr(history)
+    fastcounter.incr(video_like_counter(channel_id, video_id), delta)
  
 def dislike_video(key, channel_id, video_id, delta=1):
     history = video_dislike_history_counter(key, channel_id, video_id)
     if fastcounter.get_count(history) > 0:
         return
-    fastcounter.incr(history, 1, 99999999)
-    fastcounter.incr(video_dislike_counter(channel_id, video_id),
-                     delta,
-                     COUNTER_UPDATE_SECONDS)
+    fastcounter.incr(history)
+    fastcounter.incr(video_dislike_counter(channel_id, video_id), delta)
 
 def get_video_by_external_id(source, external_id):
     q = VideoModel.all()
@@ -83,7 +78,7 @@ def get_videos_model_in_channel(channel_id, offset = 0, limit = 16):
     key = _channel_key(channel_id)
     q = VideoModel.all()
     q.ancestor(key)
-    q.order("-editor_score")
+    q.order("-final_score")
     return q.fetch(limit, offset = offset)
 
 def get_videos_in_channel(channel_id, offset = 0, limit = 16):
@@ -119,20 +114,14 @@ def add_comment(comment, user, channel_id, video_id, parent_id):
                            video_id = video_id,
                            parent_id = int(parent_id))
     comment.put()
-    fastcounter.incr(video_comment_counter(channel_id, video_id),
-                     1,
-                     COUNTER_UPDATE_SECONDS)
+    fastcounter.incr(video_comment_counter(channel_id, video_id))
     return comment
 
 def dislike_comment(channel_id, video_id, comment_id, delta=1):
-    fastcounter.incr(comment_dislike_counter(channel_id, video_id, comment_id),
-                     delta,
-                     COUNTER_UPDATE_SECONDS)
+    fastcounter.incr(comment_dislike_counter(channel_id, video_id, comment_id))
 
 def like_comment(channel_id, video_id, comment_id, delta=1):
-    fastcounter.incr(comment_like_counter(channel_id, video_id, comment_id),
-                     delta,
-                     COUNTER_UPDATE_SECONDS)
+    fastcounter.incr(comment_like_counter(channel_id, video_id, comment_id))
 
 """ *************************************
 ******* Public functions above **********
