@@ -13,8 +13,10 @@ import logging
 from StringIO import StringIO
 import models.DataSource as data_source
 import configs
+#from libs.benchmark import Worktime
 
 class ChannelListHandler(handlers.BasePageHandler):
+    #@Worktime('ChannelList.Get')
     def get(self):
         q = ChannelModel.all()
         offset, limit = handlers.parse_offset_and_limit(self)
@@ -29,6 +31,7 @@ class ChannelHandler(handlers.BaseJsonHandler):
     '''
     Return the channel information as well as the video list.
     '''
+    #@Worktime('Channel.Get')
     def get(self, channel_id):
         channel = data_source.get_channel(channel_id)
         offset, limit = handlers.parse_offset_and_limit(self)
@@ -45,6 +48,7 @@ class ChannelPageHandler(handlers.BasePageHandler):
     Return the channel information as well as the video list.
     '''
     @require_login()
+    #@Worktime('ChannelPage.Get')
     def get(self, channel_id, video_id = '', comment_id = ''):
         channel = data_source.get_channel(channel_id)
         offset, limit = handlers.parse_offset_and_limit(self)
@@ -61,6 +65,7 @@ class VideoHandler(handlers.BaseJsonHandler):
     Return the detail meta info of a video.
     It requires both channel and video id to specify a video.
     '''
+    #@Worktime('Video.Get')
     def get(self, channel_id, video_id):
         video = data_source.get_video(channel_id, video_id)
         if video:
@@ -71,6 +76,7 @@ class VideoHandler(handlers.BaseJsonHandler):
 class VideoPageHandler(handlers.BasePageHandler):
 
     @require_login()
+    #@Worktime('VideoPage.Get')
     def get(self, channel_id, video_id, comment_id=''):
         data_source.view_video(channel_id, video_id)
         self.render("ChannelListPage.html")
