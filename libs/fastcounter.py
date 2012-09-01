@@ -20,9 +20,9 @@ import webapp2
 from google.appengine.api import memcache
 from google.appengine.api.taskqueue import taskqueue
 from google.appengine.ext import db
+from configs import DEBUG
 
 __all__ = ['get_count', 'get_counts', 'incr']
-
 
 UPDATE_INTERVAL = 3600
 
@@ -35,16 +35,13 @@ class Counter(db.Model):
 def get_count(name):
     """Returns the count of the specified counter name.
 
-    If it doesn't exist, 0 is returned.  For counters which do exist, the
-    returned count includes both the persisted (datastore) count plus the
-    unpersisted memcache count.  It does not include any count waiting to be
-    persisted on the task queue.
+    If it doesn't exist, 0 is returned.
     """
 
     mc = memcache.get("ctr_val:" + name);
-    if not mc:
+    if mc is None:
         counter = Counter.get_by_key_name(name)
-        if not counter: mc = 0
+        if counter is None: mc = 0
         else: mc = counter.value
         memcache.add("ctr_val:" + name, mc, 86400)
     return mc
@@ -109,7 +106,7 @@ class CounterPersistIncr(webapp2.RequestHandler):
     @staticmethod
     def incr_counter(name, value):
         c = Counter.get_by_key_name(name)
-        if not c:
+        if c is None:
             c = Counter(key_name=name, value=value)
         else:
             c.value = value
