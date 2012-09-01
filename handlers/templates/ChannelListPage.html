@@ -5,7 +5,8 @@
 {% raw %}
 <div  ng-controller="UserCntl"> 
 <div id="head-banner" class="row"> 
-    <ul class="nav nav-pills">
+    <div style="float:left"><img src="/static/img/logo.jpg" style="width:60px;height:60px;position:relative;top:-24px"/></div>
+    <div style="float:left"><ul class="nav nav-pills">
         <li>
             <a href="/channel/girls"> 首页 </a> 
         </li>
@@ -21,7 +22,7 @@
         <li>
             <wb:share-button></wb:share-button>
         </li>
-    </ul>
+    </ul></div>
 </div>
 
     <div ng-show="showOverflow" ng-click="hideLogin()" class="overflow" >
