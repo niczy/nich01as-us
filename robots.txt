@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+Disallow: /page/admin/
+Sitemap: http://www.mochadian.com/sitemap.xml

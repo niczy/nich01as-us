@@ -1,6 +1,7 @@
 DEBUG = True
 CACHE = True
 BENCHMARK = True
+HOST = 'www.mochadian.com'
 
 router_path = {
             "query_version" : r'/api/client/queryversion', #Query either the client page version or the client version.
@@ -17,7 +18,9 @@ router_path = {
             "video_page": r'/channel/(\w+)/(\w+)', 
             "signup_page": r'/signup',
             "signin_page": r'/signin',
-            "cron_persist_channel": r'/cron/persistchannel'
+            "cron_persist_channel": r'/cron/persistchannel',
+            "home_page": r'/',
+            "xml_sitemap": r'/sitemap.xml'
         }
 
 

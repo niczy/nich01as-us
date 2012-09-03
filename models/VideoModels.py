@@ -65,7 +65,7 @@ class VideoModel(db.Model):
     def to_dict(self):
         ret = models.to_dict(self)
         ret["video_id"] = self.key().id()
-        ret["channel_id"] = self.parent().key().name()
+        ret["channel_id"] = self.parent_key().name()
         return ret;
         
     
