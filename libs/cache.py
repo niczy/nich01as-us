@@ -11,7 +11,12 @@ import configs
 
 def Cached(interval):
     """A decorator that automatically cache the return value of the decorated
-    function in memcache, using the serialization of function name and arguments as key. """
+    function in memcache, using the serialization of function name and arguments as key.
+    
+    WARNING: Avoid caching a datastore model object. Some information will loss during
+    the serialization/de-serialization. Using the cached datastore object
+    may cause extra datastore API calls.
+    """
     
     def get_md5(unhased):
         hashed = hashlib.md5()

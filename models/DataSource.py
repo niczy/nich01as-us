@@ -74,16 +74,16 @@ def get_video_by_external_id(source, external_id):
     return None
 
 @Cached(CHANNEL_VIDEOS_CACHE_SECONDS)
-def get_videos_model_in_channel(channel_id, offset = 0, limit = 16):
+def get_videos_model_in_channel(channel_id):
     key = _channel_key(channel_id)
     q = VideoModel.all()
     q.ancestor(key)
     q.order("-final_score")
-    return q.fetch(limit, offset = offset)
+    videos = q.fetch(limit=MAX_CHANNEL_SIZE)
+    return models.to_dict_array(videos)
 
 def get_videos_in_channel(channel_id, offset = 0, limit = 16):
-    videos = get_videos_model_in_channel(channel_id, 0, MAX_CHANNEL_SIZE)
-    videos = models.to_dict_array(videos)
+    videos = get_videos_model_in_channel(channel_id)
     _populate_video_counters(videos)
     videos = _score_videos(videos)
     return videos[offset:offset+limit]

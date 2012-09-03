@@ -1,5 +1,5 @@
 DEBUG = True
-CACHE = False
+CACHE = True
 BENCHMARK = True
 
 router_path = {

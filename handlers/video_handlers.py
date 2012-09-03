@@ -34,6 +34,9 @@ class ChannelHandler(handlers.BaseJsonHandler):
     #@Worktime('Channel.Get')
     def get(self, channel_id):
         channel = data_source.get_channel(channel_id)
+        if not channel:
+            self.render_dict_as_json({"error" : "Channel not found. channel_id=%s" % channel_id})
+            return
         offset, limit = handlers.parse_offset_and_limit(self)
         videos = data_source.get_videos_in_channel(channel_id, offset = offset, limit = limit) 
         ret = {}
