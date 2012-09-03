@@ -10,6 +10,10 @@ from models import DataSource as data_source
 from datetime import datetime
 import configs
 
+class HomePageHandler(BasePageHandler):
+    def get(self):
+        self.redirect('/channel/girls') #TODO
+        
 class XmlSitemapHandler(BasePageHandler):
     def get(self):
         channel_id = 'girls' #TODO: change channel id
