@@ -70,6 +70,7 @@ class VideoHandler(handlers.BaseJsonHandler):
     '''
     #@Worktime('Video.Get')
     def get(self, channel_id, video_id):
+        data_source.view_video(channel_id, video_id)
         video = data_source.get_video(channel_id, video_id)
         if video:
             self.render_dict_as_json(video)
@@ -82,7 +83,10 @@ class VideoPageHandler(handlers.BasePageHandler):
     #@Worktime('VideoPage.Get')
     def get(self, channel_id, video_id, comment_id=''):
         data_source.view_video(channel_id, video_id)
-        self.render("ChannelListPage.html")
+        video = data_source.get_video(channel_id, video_id)
+        values = {};
+        values["video"] = video;
+        self.render("ChannelListPage.html", values)
 
 class VideoLikeHandler(handlers.BaseJsonHandler):
     '''

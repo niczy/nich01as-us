@@ -1,32 +1,42 @@
 {% extends 'templates/CenterLayout.html' %}
+{% block title %}
+    {% if video is defined %}
+        {{ video.title }} 
+    {% endif %}
+    抹茶店 娱乐资讯
+{% endblock %}
+
 {% block AppName %}ChannelListPageApp{% endblock %}
 {% block content %}
 
 {% raw %}
 <div  ng-controller="UserCntl"> 
-<div id="head-banner" class="row"> 
-    <div style="float:left"><img src="/static/img/logo.jpg" style="width:60px;height:60px;position:relative;top:-24px"/></div>
-    <div style="float:left"><ul class="nav nav-pills">
-        <li>
-            <a href="/channel/girls"> 首页 </a> 
-        </li>
-        <li ng-show="loginUser">
-            <a ng-click="logout()">{{ loginUser }} [登出]</a>
-        </li>
-        <li ng-hide="loginUser">
-            <a ng-click="showLogin()"> 注册 </a>         
-        </li>
-        <li ng-hide="loginUser">
-            <a ng-click="showLogin()"> 登录 </a> 
-        </li>
-        <li>
-            <wb:share-button></wb:share-button>
-        </li>
-    </ul></div>
-</div>
+        <ul id="head-banner" class="nav nav-pills">
+            <li>
+                <img class="head-logo" src="/static/img/logo.jpg" />
+            </li>
+            <li>
+                <wb:share-button size="middle" relateuid="2976369932" ></wb:share-button>
+            </li>
 
+            <li>
+                <a href="/channel/girls"> 首页 </a> 
+            </li>
+            <li ng-show="loginUser">
+                <a ng-click="logout()">{{ loginUser }} [登出]</a>
+            </li>
+            <li ng-hide="loginUser">
+                <a ng-click="showLogin()"> 注册 </a>         
+            </li>
+            <li ng-hide="loginUser">
+                <a ng-click="showLogin()"> 登录 </a> 
+            </li>
+        </ul>
+    <div></div>
+    
     <div ng-show="showOverflow" ng-click="hideLogin()" class="overflow" >
     </div>
+   
     <div ng-show="showOverflow" class="flow-box">
         <div class="row">
             <div class="span6">
