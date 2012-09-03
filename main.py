@@ -62,7 +62,7 @@ app = webapp2.WSGIApplication([(router_path["query_version"], client_page.Versio
                                 (router_path["signup_page"], user_handlers.SignUpPageHandler),
                                 (router_path["signin_page"], user_handlers.SignInPageHandler),
                                 (router_path["cron_persist_channel"], cron_handlers.PersistChannelListHandler),
-                                (router_path["home_page"], video_handlers.HomePageHandler),
+                                (router_path["home_page"], page_handlers.HomePageHandler),
                                 (router_path["xml_sitemap"], page_handlers.XmlSitemapHandler),
                                 (r'/debug', comment_handlers.DebugHandler)
     ],
